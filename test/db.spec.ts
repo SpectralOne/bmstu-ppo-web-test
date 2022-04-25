@@ -6,7 +6,6 @@ import { exec } from "child_process";
 import { Player } from "../src/model/Player";
 import { Team } from "../src/model/Team";
 import { User } from "../src/model/User";
-import { count } from "console";
 
 const USERNAME = "admin";
 const HOST = "localhost";
@@ -15,8 +14,8 @@ const PASSWORD = "admin";
 const PORT = 5432;
 
 const prepareTestDB = () => {
-    const script_template = `PGPASSWORD=${PASSWORD} psql -h ${HOST} -U ${USERNAME} -d ${DATABASE} -f ./sql/`;
-    ['db_drop.sql', 'db_init.sql'].forEach(file => exec(script_template + file));
+    const script_template = `PGPASSWORD=${PASSWORD} psql -h ${HOST} -U ${USERNAME} -d ${DATABASE} -f ./sql/db_init.sql`;
+    exec(script_template);
 }
 
 const connParams = {
