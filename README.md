@@ -25,3 +25,12 @@
 * Отказоустойчивость
 * Качество работы
 
+9. Web SPA Cross-platform app
+
+* TypeScript - backend
+* ReactJS - frontend
+* Jest - testing
+* PostgreSQL - db
+* pgadmin - db admin
+* nginx - proxy server
+* docker - deploy app
