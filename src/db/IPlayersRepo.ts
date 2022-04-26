@@ -1,6 +1,7 @@
 import { Pool } from "pg";
-import { q, coerceDate } from "./utils";
+import { q, coerceDate, buildConn } from "./utils";
 import { Player } from "../model/Player";
+import { ConnParams } from "../types/ConnParams";
 
 class PgPlayersRepo {
   async addPlayer(_player: Player, _conn: Pool): Promise<any> { }
@@ -14,35 +15,42 @@ const TABLE = "players";
 const TEAM_PLAYER_TABLE = "teamplayer";
 
 export class IPlayersRepo extends PgPlayersRepo {
-  async delPlayer(id: number, conn: Pool) {
-    const query: string = `DELETE FROM ${TABLE} WHERE id = ${id}`;
-    return q(query, conn);
+  conn: Pool;
+
+  constructor(connParams: ConnParams) {
+    super();
+    this.conn = buildConn(connParams);
   }
 
-  async addPlayer(player: Player, conn: Pool) {
+  async delPlayer(id: number) {
+    const query: string = `DELETE FROM ${TABLE} WHERE id = ${id}`;
+    return q(query, this.conn);
+  }
+
+  async addPlayer(player: Player) {
     const bd = player.birthdate.toISOString();
     const query = `INSERT INTO ${TABLE} (firstname, lastname, country, birthdate, owner) VALUES \
         ('${player.firstname}', '${player.lastname}', '${player.country}', '${bd}', ${player.owner});`;
-    return q(query, conn);
+    return q(query, this.conn);
   }
 
-  async getPlayers(conn: Pool) {
+  async getPlayers() {
     const query = `SELECT * FROM ${TABLE};`;
-    const res = await q(query, conn);
+    const res = await q(query, this.conn);
     if (!res)
       return null;
-    return res.rows.map((p: Player | any) => new Player(p.id, p.owner, p.firstname, p.lastname, p.country, coerceDate(p.birthdate)));
+    return res.rows.map((p: Player) => new Player(p.id, p.owner, p.firstname, p.lastname, p.country, coerceDate(p.birthdate)));
   }
 
-  async addPlayerTeam(playerId: number, teamId: number, conn: Pool) {
+  async addPlayerTeam(playerId: number, teamId: number) {
     const query = `INSERT INTO ${TEAM_PLAYER_TABLE} (team_id, player_id) VALUES \
             ('${teamId}', '${playerId}');`;
-    return q(query, conn);
+    return q(query, this.conn);
   }
 
-  async delPlayerTeam(playerId: number, teamId: number, conn: Pool) {
+  async delPlayerTeam(playerId: number, teamId: number) {
     const query = `DELETE FROM ${TEAM_PLAYER_TABLE} WHERE team_id = '${teamId}' AND \
             player_id = '${playerId}';`;
-    return q(query, conn);
+    return q(query, this.conn);
   }
 }

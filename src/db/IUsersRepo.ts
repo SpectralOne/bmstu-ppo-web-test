@@ -1,6 +1,7 @@
 import { Pool } from "pg";
-import { q } from "./utils";
+import { q, buildConn } from "./utils";
 import { User } from "../model/User";
+import { ConnParams } from "../types/ConnParams";
 
 class PgUsersRepo {
   async getUserId(_login: string, _password: string, _conn: Pool): Promise<any> { }
@@ -11,21 +12,28 @@ class PgUsersRepo {
 const TABLE = "users";
 
 export class IUsersRepo extends PgUsersRepo {
-  async addUser(user: User, conn: Pool) {
-    const query = `INSERT INTO ${TABLE} (login, password, privelegeLevel) VALUES \
-             ('${user.login}', '${user.password}', '${user.privelegeLevel}');`;
-    return q(query, conn);
+  conn: Pool;
+
+  constructor(connParams: ConnParams) {
+    super();
+    this.conn = buildConn(connParams);
   }
 
-  async getUserId(login: string, password: string, conn: Pool) {
+  async addUser(user: User) {
+    const query = `INSERT INTO ${TABLE} (login, password, privelegelevel) VALUES \
+             ('${user.login}', '${user.password}', '${user.privelegelevel}');`;
+    return q(query, this.conn);
+  }
+
+  async getUserId(login: string, password: string) {
     const query = `SELECT id FROM ${TABLE} WHERE login = '${login}' AND password = '${password}';`;
-    const res = await q(query, conn);
+    const res = await q(query, this.conn);
     return res ? res.rows[0].id : null;
   }
 
-  async getUser(id: number, conn: Pool) {
+  async getUser(id: number) {
     const query = `SELECT * FROM ${TABLE} WHERE id = ${id};`;
-    const res = await q(query, conn);
+    const res = await q(query, this.conn);
     if (!res) {
       return null;
     }

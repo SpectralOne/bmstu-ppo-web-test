@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     id serial primary key,
     login varchar,
     password varchar,
-    priveLegelevel int
+    privelegelevel int
 );
 
 CREATE TABLE IF NOT EXISTS teams (

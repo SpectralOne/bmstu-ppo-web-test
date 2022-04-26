@@ -1,27 +1,22 @@
-import { Pool } from "pg";
 import { IUsersRepo } from "../db/IUsersRepo";
 import { User } from "../model/User";
-import { buildConn } from "../db/utils";
 
-export class UsersController extends IUsersRepo {
-  conn: Pool;
+export class UsersController {
   IUsersRepo: IUsersRepo;
 
-  constructor(connParams: any) {
-    super();
-    this.conn = buildConn(connParams);
-    this.IUsersRepo = new IUsersRepo;
+  constructor(IUsersRepo: IUsersRepo) {
+    this.IUsersRepo = IUsersRepo;
   }
 
   async addUser(user: User) {
-    return await this.IUsersRepo.addUser(user, this.conn);
+    return await this.IUsersRepo.addUser(user);
   }
 
   async getUserId(login: string, password: string) {
-    return await this.IUsersRepo.getUserId(login, password, this.conn);
+    return await this.IUsersRepo.getUserId(login, password);
   }
 
   async getUser(id: number) {
-    return await this.IUsersRepo.getUser(id, this.conn);
+    return await this.IUsersRepo.getUser(id);
   }
 }

@@ -1,35 +1,30 @@
-import { Pool } from "pg";
 import { IPlayersRepo } from "../db/IPlayersRepo";
 import { Player } from "../model/Player";
-import { buildConn } from "../db/utils";
 
-export class PlayersController extends IPlayersRepo {
-  conn: Pool;
+export class PlayersController {
   IPlayersRepo: IPlayersRepo;
 
-  constructor(connParams: any) {
-    super();
-    this.conn = buildConn(connParams);
-    this.IPlayersRepo = new IPlayersRepo;
+  constructor(IPlayersRepo: IPlayersRepo) {
+    this.IPlayersRepo = IPlayersRepo;
   }
 
   async delPlayer(id: number) {
-    return await this.IPlayersRepo.delPlayer(id, this.conn);
+    return await this.IPlayersRepo.delPlayer(id);
   }
 
   async addPlayer(player: Player) {
-    return await this.IPlayersRepo.addPlayer(player, this.conn);
+    return await this.IPlayersRepo.addPlayer(player);
   }
 
   async getPlayers() {
-    return await this.IPlayersRepo.getPlayers(this.conn);
+    return await this.IPlayersRepo.getPlayers();
   }
 
   async addPlayerTeam(playerId: number, teamId: number) {
-    return await this.IPlayersRepo.delPlayerTeam(playerId, teamId, this.conn);
+    return await this.IPlayersRepo.delPlayerTeam(playerId, teamId);
   }
 
   async delPlayerTeam(playerId: number, teamId: number) {
-    return await this.IPlayersRepo.delPlayerTeam(playerId, teamId, this.conn);
+    return await this.IPlayersRepo.delPlayerTeam(playerId, teamId);
   }
 }

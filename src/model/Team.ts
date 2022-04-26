@@ -1,5 +1,3 @@
-import { User } from "./User";
-
 export class Team {
   id: number;
   owner: number;

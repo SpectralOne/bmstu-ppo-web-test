@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import { ConnParams } from "../types/ConnParams";
 
 export const q = async (q: string, conn: Pool) => {
     try {
@@ -14,6 +15,6 @@ export const coerceDate = (date: Date) => {
     return date;
 }
 
-export const buildConn = (connParams: any) => {
+export const buildConn = (connParams: ConnParams) => {
     return new Pool(connParams);
 }

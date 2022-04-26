@@ -1,6 +1,7 @@
 import { Pool } from "pg";
-import { q } from "./utils";
+import { q, buildConn } from "./utils";
 import { Team } from "../model/Team";
+import { ConnParams } from "../types/ConnParams";
 
 class PgTeamsRepo {
   async addTeam(_team: Team, _conn: Pool): Promise<any> { }
@@ -10,14 +11,21 @@ class PgTeamsRepo {
 const TABLE = "teams";
 
 export class ITeamsRepo extends PgTeamsRepo {
-  async delTeam(id: number, conn: Pool) {
-    const query: string = `DELETE FROM ${TABLE} WHERE id = ${id};`;
-    return q(query, conn)
+  conn: Pool;
+
+  constructor(connParams: ConnParams) {
+    super();
+    this.conn = buildConn(connParams);
   }
 
-  async addTeam(team: Team, conn: Pool) {
+  async delTeam(id: number) {
+    const query: string = `DELETE FROM ${TABLE} WHERE id = ${id};`;
+    return q(query, this.conn)
+  }
+
+  async addTeam(team: Team) {
     const query: string = `INSERT INTO ${TABLE} (name, description, owner) VALUES \
           ('${team.name}', '${team.description}', '${team.owner}');`;
-    return q(query, conn);
+    return q(query, this.conn);
   }
 }
