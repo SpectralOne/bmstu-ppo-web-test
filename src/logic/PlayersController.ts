@@ -2,29 +2,33 @@ import { IPlayersRepo } from "../db/IPlayersRepo";
 import { Player } from "../model/Player";
 
 export class PlayersController {
-  IPlayersRepo: IPlayersRepo;
+  PlayersRepo: IPlayersRepo;
 
   constructor(IPlayersRepo: IPlayersRepo) {
-    this.IPlayersRepo = IPlayersRepo;
+    this.PlayersRepo = IPlayersRepo;
   }
 
   async delPlayer(id: number) {
-    return await this.IPlayersRepo.delPlayer(id);
+    return await this.PlayersRepo.delPlayer(id);
   }
 
   async addPlayer(player: Player) {
-    return await this.IPlayersRepo.addPlayer(player);
+    return await this.PlayersRepo.addPlayer(player);
   }
 
-  async getPlayers() {
-    return await this.IPlayersRepo.getPlayers();
+  async getPlayer(id: number) {
+    return await this.PlayersRepo.getPlayer(id);
+  }
+
+  async getPlayers(limit: number | null) {
+    return await this.PlayersRepo.getPlayers(limit);
   }
 
   async addPlayerTeam(playerId: number, teamId: number) {
-    return await this.IPlayersRepo.delPlayerTeam(playerId, teamId);
+    return await this.PlayersRepo.addPlayerTeam(playerId, teamId);
   }
 
   async delPlayerTeam(playerId: number, teamId: number) {
-    return await this.IPlayersRepo.delPlayerTeam(playerId, teamId);
+    return await this.PlayersRepo.delPlayerTeam(playerId, teamId);
   }
 }

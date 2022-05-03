@@ -1,19 +1,29 @@
-import { Pool } from "pg";
 import { ITeamsRepo } from "../db/ITeamsRepo";
 import { Team } from "../model/Team";
 
 export class TeamsController {
-  ITeamsRepo: ITeamsRepo;
+  TeamsRepo: ITeamsRepo;
 
-  constructor(ITeamsRepo: ITeamsRepo) {
-    this.ITeamsRepo = ITeamsRepo;
+  constructor(TeamsRepo: ITeamsRepo) {
+    this.TeamsRepo = TeamsRepo;
   }
 
   async delTeam(id: number) {
-    return await this.ITeamsRepo.delTeam(id);
+    return await this.TeamsRepo.delTeam(id);
   }
 
   async addTeam(team: Team) {
-    return await this.ITeamsRepo.addTeam(team);
+    return await this.TeamsRepo.addTeam(team);
+  }
+
+  async getTeam(id: number) {
+    return await this.TeamsRepo.getTeam(id);
+  }
+
+  async getTeams(limit: number | null) {
+    return await this.TeamsRepo.getTeams(limit);
+  }
+  async getPlayerTeams(id: number, limit: number | null) {
+    return await this.TeamsRepo.getPlayerTeams(id, limit);
   }
 }

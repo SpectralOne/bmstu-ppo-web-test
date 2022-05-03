@@ -1,31 +1,17 @@
-import { Pool } from "pg";
-import { q, buildConn } from "./utils";
 import { Team } from "../model/Team";
-import { ConnParams } from "../types/ConnParams";
 
-class PgTeamsRepo {
-  async addTeam(_team: Team, _conn: Pool): Promise<any> { }
-  async delTeam(_id: number, _conn: Pool): Promise<any> { }
+interface PgTeamsRepo {
+  getTeams(_limit: number | null, _conn: any): Promise<any>;
+  getPlayerTeams(_id: number, _limit: number | null, _conn: any): Promise<any>;
+  getTeam(_id: number, _conn: any): Promise<any>;
+  addTeam(_team: Team, _conn: any): Promise<any>;
+  delTeam(_id: number, _conn: any): Promise<any>;
 }
 
-const TABLE = "teams";
-
-export class ITeamsRepo extends PgTeamsRepo {
-  conn: Pool;
-
-  constructor(connParams: ConnParams) {
-    super();
-    this.conn = buildConn(connParams);
-  }
-
-  async delTeam(id: number) {
-    const query: string = `DELETE FROM ${TABLE} WHERE id = ${id};`;
-    return q(query, this.conn)
-  }
-
-  async addTeam(team: Team) {
-    const query: string = `INSERT INTO ${TABLE} (name, description, owner) VALUES \
-          ('${team.name}', '${team.description}', '${team.owner}');`;
-    return q(query, this.conn);
-  }
+export interface ITeamsRepo extends PgTeamsRepo {
+  getTeam(id: number): Promise<Team | null>;
+  getTeams(limit: number | null): Promise<Team[] | null>;
+  getPlayerTeams(id: number, limit: number | null): Promise<Team[] | null>;
+  delTeam(id: number): Promise<boolean>;
+  addTeam(team: Team): Promise<boolean>;
 }

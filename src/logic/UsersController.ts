@@ -2,21 +2,25 @@ import { IUsersRepo } from "../db/IUsersRepo";
 import { User } from "../model/User";
 
 export class UsersController {
-  IUsersRepo: IUsersRepo;
+  UsersRepo: IUsersRepo;
 
-  constructor(IUsersRepo: IUsersRepo) {
-    this.IUsersRepo = IUsersRepo;
+  constructor(UsersRepo: IUsersRepo) {
+    this.UsersRepo = UsersRepo;
   }
 
   async addUser(user: User) {
-    return await this.IUsersRepo.addUser(user);
+    return await this.UsersRepo.addUser(user);
   }
 
-  async getUserId(login: string, password: string) {
-    return await this.IUsersRepo.getUserId(login, password);
+  async getUserByLogin(login: string, password: string) {
+    return await this.UsersRepo.getUserByLogin(login, password);
   }
 
-  async getUser(id: number) {
-    return await this.IUsersRepo.getUser(id);
+  async userExists(login: string) {
+    return await this.UsersRepo.userExists(login);
+  }
+
+  async getUserById(id: number) {
+    return await this.UsersRepo.getUserById(id);
   }
 }
