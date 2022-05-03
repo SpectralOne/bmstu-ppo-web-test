@@ -215,7 +215,7 @@ class MockPlayersRepo implements IPlayersRepo {
       return false;
     }
 
-    const playerIdx = this.players.findIndex(x => x.id === playerId);  //;this.teams[teamIdx].players.findIndex(p => p === playerId);
+    const playerIdx = this.players.findIndex(x => x.id === playerId);
     if (playerIdx === -1) {
       return false;
     }
