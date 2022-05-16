@@ -4,8 +4,8 @@ import { Player } from "../model/Player";
 export class PlayersController {
   PlayersRepo: IPlayersRepo;
 
-  constructor(IPlayersRepo: IPlayersRepo) {
-    this.PlayersRepo = IPlayersRepo;
+  constructor(PlayersRepo: IPlayersRepo) {
+    this.PlayersRepo = PlayersRepo;
   }
 
   async delPlayer(id: number) {

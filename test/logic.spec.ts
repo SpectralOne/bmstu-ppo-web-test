@@ -27,11 +27,6 @@ class MockUserRepo implements IUsersRepo {
     return users.length ? users[0] : null;
   }
 
-  async getUserById(id: number) {
-    const users = this.users.filter((instance) => instance.id === id);
-    return users.length ? users[0] : null;
-  }
-
   async userExists(login: string) {
     const users = this.users.filter((instance) => instance.login === login);
     return users.length ? true : false;
@@ -57,16 +52,6 @@ describe("Test UserController", () => {
     const gotUsers = [];
     for (let i = 0; i < users.length; i++) {
       const gotUser = await SUT.getUserByLogin(users[i].login, users[i].password);
-      expect(gotUser).toBeTruthy();
-      gotUsers.push(gotUser);
-    }
-    expect(users).toEqual(gotUsers);
-  })
-
-  it("Get user by id", async () => {
-    const gotUsers = [];
-    for (let i = 0; i < users.length; i++) {
-      const gotUser = await SUT.getUserById(users[i].id);
       expect(gotUser).toBeTruthy();
       gotUsers.push(gotUser);
     }
