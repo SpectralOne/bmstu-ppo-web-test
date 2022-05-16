@@ -2,8 +2,9 @@ import { Pool } from "pg";
 import { Team } from "../model/Team";
 import { ITeamsRepo } from "./ITeamsRepo";
 import { ConnParams } from "../types/ConnParams";
-import { ValidationResult, validateTeam } from "../validators";
-import { buildConn, q, TEAMS_TABLE, TEAM_PLAYER_TABLE } from "./common";
+import { ValidationResult } from "../types/Validation";
+import { validateTeam } from "./validateTeam";
+import { buildConn, executeQuery, TEAMS_TABLE, TEAM_PLAYER_TABLE } from "./common";
 
 export class TeamsRepo implements ITeamsRepo {
   conn: Pool;
@@ -16,8 +17,8 @@ export class TeamsRepo implements ITeamsRepo {
     const teamsQuery: string = `SELECT * FROM ${TEAMS_TABLE} WHERE id = ${id};`;
     const playersQuery: string = `SELECT * FROM ${TEAM_PLAYER_TABLE} WHERE teamid = ${id};`;
 
-    const team = await q(teamsQuery, this.conn);
-    const player = await q(playersQuery, this.conn);
+    const team = await executeQuery(teamsQuery, this.conn);
+    const player = await executeQuery(playersQuery, this.conn);
 
     if (!team || !player) {
       return null;
@@ -36,8 +37,8 @@ export class TeamsRepo implements ITeamsRepo {
     const teamsQuery: string = `SELECT * FROM ${TEAMS_TABLE};`;
     const playersQuery: string = `SELECT * FROM ${TEAM_PLAYER_TABLE};`;
 
-    const teamsRes = await q(teamsQuery, this.conn);
-    const playerRes = await q(playersQuery, this.conn);
+    const teamsRes = await executeQuery(teamsQuery, this.conn);
+    const playerRes = await executeQuery(playersQuery, this.conn);
 
     if (!teamsRes || !playerRes) {
       return null;
@@ -58,7 +59,7 @@ export class TeamsRepo implements ITeamsRepo {
 
   async delTeam(id: number) {
     const query: string = `DELETE FROM ${TEAMS_TABLE} WHERE id = ${id};`;
-    const qres = await q(query, this.conn);
+    const qres = await executeQuery(query, this.conn);
 
     return qres ? true : false;
   }
@@ -72,7 +73,7 @@ export class TeamsRepo implements ITeamsRepo {
 
     const query: string = `INSERT INTO ${TEAMS_TABLE} (name, description, owner) VALUES \
           ('${team.name}', '${team.description}', '${team.owner}');`;
-    const qres = await q(query, this.conn);
+    const qres = await executeQuery(query, this.conn);
 
     return qres ? true : false;
   }
@@ -81,8 +82,8 @@ export class TeamsRepo implements ITeamsRepo {
     const teamsQuery: string = `SELECT * FROM ${TEAMS_TABLE} where owner = ${id};`;
     const playersQuery: string = `SELECT * FROM ${TEAM_PLAYER_TABLE};`;
 
-    const teamsRes = await q(teamsQuery, this.conn);
-    const playerRes = await q(playersQuery, this.conn);
+    const teamsRes = await executeQuery(teamsQuery, this.conn);
+    const playerRes = await executeQuery(playersQuery, this.conn);
 
     if (!teamsRes || !playerRes) {
       return null;

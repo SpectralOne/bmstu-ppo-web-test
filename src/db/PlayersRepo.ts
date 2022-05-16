@@ -1,9 +1,10 @@
 import { Pool } from "pg";
 import { Player } from "../model/Player";
 import { ConnParams } from "../types/ConnParams";
-import { ValidationResult, validatePlayer } from "../validators";
+import { ValidationResult } from "../types/Validation";
+import { validatePlayer } from "./validatePlayer";
 import { IPlayersRepo } from "./IPlayersRepo";
-import { buildConn, coerceDate, q, PLAYERS_TABLE, TEAM_PLAYER_TABLE } from "./common";
+import { buildConn, coerceDate, executeQuery, PLAYERS_TABLE, TEAM_PLAYER_TABLE } from "./common";
 
 export class PlayersRepo implements IPlayersRepo {
   conn: Pool;
@@ -14,7 +15,7 @@ export class PlayersRepo implements IPlayersRepo {
 
   async delPlayer(id: number) {
     const query: string = `DELETE FROM ${PLAYERS_TABLE} WHERE id = ${id}`;
-    const qres = await q(query, this.conn);
+    const qres = await executeQuery(query, this.conn);
 
     return qres ? true : false;
   }
@@ -33,7 +34,7 @@ export class PlayersRepo implements IPlayersRepo {
     const query = `INSERT INTO ${PLAYERS_TABLE} (firstname, lastname, country, birthdate, owner) \ 
       VALUES ('${firstname}', '${lastname}', '${country}', '${bd}', ${owner});`;
 
-    const qres = await q(query, this.conn);
+    const qres = await executeQuery(query, this.conn);
 
     return qres ? true : false;
   }
@@ -41,8 +42,8 @@ export class PlayersRepo implements IPlayersRepo {
   async getPlayers(limit: number | null) {
     const playersQuery = `SELECT * FROM ${PLAYERS_TABLE};`;
     const teamsQuery = `select * from ${TEAM_PLAYER_TABLE};`;
-    const playersRes = await q(playersQuery, this.conn);
-    const teamsRes = await q(teamsQuery, this.conn);
+    const playersRes = await executeQuery(playersQuery, this.conn);
+    const teamsRes = await executeQuery(teamsQuery, this.conn);
 
     if (!playersRes || !teamsRes)
       return null;
@@ -65,8 +66,8 @@ export class PlayersRepo implements IPlayersRepo {
     const playerQuery = `SELECT * FROM ${PLAYERS_TABLE} where id = ${playerId};`;
     const teamsQuery = `select * from ${TEAM_PLAYER_TABLE} where playerid = ${playerId};`;
 
-    const player = await q(playerQuery, this.conn);
-    const teams = await q(teamsQuery, this.conn);
+    const player = await executeQuery(playerQuery, this.conn);
+    const teams = await executeQuery(teamsQuery, this.conn);
     if (!player || !teams)
       return null;
 
@@ -83,7 +84,7 @@ export class PlayersRepo implements IPlayersRepo {
   async addPlayerTeam(playerId: number, teamId: number) {
     const query = `INSERT INTO ${TEAM_PLAYER_TABLE} (teamid, playerid) VALUES \
               ('${teamId}', '${playerId}');`;
-    const qres = await q(query, this.conn);
+    const qres = await executeQuery(query, this.conn);
 
     return qres ? true : false;
   }
@@ -91,7 +92,7 @@ export class PlayersRepo implements IPlayersRepo {
   async delPlayerTeam(playerId: number, teamId: number) {
     const query = `DELETE FROM ${TEAM_PLAYER_TABLE} WHERE \
       teamid = '${teamId}' AND playerid = '${playerId}';`;
-    const qres = await q(query, this.conn);
+    const qres = await executeQuery(query, this.conn);
 
     return qres ? true : false;
   }
