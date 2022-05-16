@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5432:5432
+    volumes:
+      - /root/bmstu/bmstu-ppo-web-test/data:/var/lib/postgresql/data

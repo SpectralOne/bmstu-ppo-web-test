@@ -19,8 +19,4 @@ export class UsersController {
   async userExists(login: string) {
     return await this.UsersRepo.userExists(login);
   }
-
-  async getUserById(id: number) {
-    return await this.UsersRepo.getUserById(id);
-  }
 }
