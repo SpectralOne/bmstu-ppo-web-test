@@ -37,3 +37,6 @@
 
 10. UML-диаграмма технологического UI
 ![tech_gui](./schemes/tech_gui.png)
+
+11. UML-диаграмма всего приложения
+![global_uml](./schemes/global_uml.png)
