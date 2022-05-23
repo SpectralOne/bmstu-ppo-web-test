@@ -97,7 +97,7 @@ describe("Test TeamsRepo", () => {
 
   it("Get players teams", async () => {
     const opres = await SUT.getPlayerTeams(2);
-    expect(opres).toEqual([teams[1]]);
+    expect(opres).toEqual(null);
   })
 });
 
