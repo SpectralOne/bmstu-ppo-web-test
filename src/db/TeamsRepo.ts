@@ -33,7 +33,7 @@ export class TeamsRepo implements ITeamsRepo {
     );
   }
 
-  async getTeams(limit: number | null) {
+  async getTeams(limit?: number) {
     const teamsQuery: string = `SELECT * FROM ${TEAMS_TABLE};`;
     const playersQuery: string = `SELECT * FROM ${TEAM_PLAYER_TABLE};`;
 
@@ -78,7 +78,7 @@ export class TeamsRepo implements ITeamsRepo {
     return qres ? true : false;
   }
 
-  async getPlayerTeams(id: number, limit: number | null) {
+  async getPlayerTeams(id: number, limit?: number) {
     const teamsQuery: string = `SELECT * FROM ${TEAMS_TABLE} where owner = ${id};`;
     const playersQuery: string = `SELECT * FROM ${TEAM_PLAYER_TABLE};`;
 

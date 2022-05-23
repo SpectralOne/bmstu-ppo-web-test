@@ -1,0 +1,8 @@
+export const enum AuthState {
+  NOOP,
+  WAIT_LOGIN,
+  WAIT_NEW_LOGIN,
+  WAIT_PASSWORD,
+  WAIT_NEW_PASSWORD,
+  WAIT_PASSWORD_AGAIN
+}

@@ -48,7 +48,7 @@ describe("Test UserRepo", () => {
   it("Get user by login and password", async () => {
     const gotUsers = [];
     for (let i = 0; i < users.length; i++) {
-      const gotUser = await SUT.getUserByLogin(users[i].login, users[i].password);
+      const gotUser = await SUT.getUserByLogin(users[i].login);
       expect(gotUser).toBeTruthy();
       gotUsers.push(gotUser);
     }
@@ -79,13 +79,13 @@ describe("Test TeamsRepo", () => {
   })
 
   it("Get teams", async () => {
-    const gotTeams = await SUT.getTeams(null);
+    const gotTeams = await SUT.getTeams();
     expect(gotTeams).toEqual(teams);
   })
 
   it("Delete team", async () => {
     const delres = await SUT.delTeam(3);
-    const gotTeams = await SUT.getTeams(null);
+    const gotTeams = await SUT.getTeams();
     expect(delres).toBeTruthy();
     expect(gotTeams).toEqual(teams.slice(0, 2));
   })
@@ -96,7 +96,7 @@ describe("Test TeamsRepo", () => {
   })
 
   it("Get players teams", async () => {
-    const opres = await SUT.getPlayerTeams(2, null);
+    const opres = await SUT.getPlayerTeams(2);
     expect(opres).toEqual([teams[1]]);
   })
 });
@@ -131,13 +131,13 @@ describe("Test PlayersRepo", () => {
   })
 
   it("Get Players", async () => {
-    const actual = await SUT.getPlayers(null);
+    const actual = await SUT.getPlayers();
     expect(players).toEqual(actual);
   })
 
   it("Delete Player", async () => {
     const opres = await SUT.delPlayer(3);
-    const actual = await SUT.getPlayers(null);
+    const actual = await SUT.getPlayers();
     expect(opres).toBeTruthy();
     expect(players.slice(0, 2)).toEqual(actual);
   })

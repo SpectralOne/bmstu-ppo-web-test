@@ -22,8 +22,8 @@ class MockUserRepo implements IUsersRepo {
     return true;
   }
 
-  async getUserByLogin(login: string, password: string) {
-    const users = this.users.filter((instance) => instance.login === login && instance.password === password);
+  async getUserByLogin(login: string) {
+    const users = this.users.filter((instance) => instance.login === login);
     return users.length ? users[0] : null;
   }
 
@@ -48,10 +48,10 @@ describe("Test UserController", () => {
     }
   })
 
-  it("Get user by login and password", async () => {
+  it("Get user by login", async () => {
     const gotUsers = [];
     for (let i = 0; i < users.length; i++) {
-      const gotUser = await SUT.getUserByLogin(users[i].login, users[i].password);
+      const gotUser = await SUT.getUserByLogin(users[i].login);
       expect(gotUser).toBeTruthy();
       gotUsers.push(gotUser);
     }
@@ -78,7 +78,7 @@ class MockTeamsRepo implements ITeamsRepo {
     return teams.length ? teams[0] : null;
   }
 
-  async getTeams(limit: number | null) {
+  async getTeams(limit?: number | null) {
     const teams = this.teams;
     return teams.length
       ? limit
@@ -87,7 +87,7 @@ class MockTeamsRepo implements ITeamsRepo {
       : null;
   }
 
-  async getPlayerTeams(id: number, limit: number | null) {
+  async getPlayerTeams(id: number, limit?: number | null) {
     const teams = this.teams.filter((instance) => instance.owner === id);
     return teams.length
       ? limit
@@ -128,13 +128,13 @@ describe("Test TeamsController", () => {
   })
 
   it("Get teams", async () => {
-    const gotTeams = await SUT.getTeams(null);
+    const gotTeams = await SUT.getTeams();
     expect(gotTeams).toEqual(teams);
   })
 
   it("Delete team", async () => {
     const delres = await SUT.delTeam(3);
-    const gotTeams = await SUT.getTeams(null);
+    const gotTeams = await SUT.getTeams();
     expect(delres).toBeTruthy();
     expect(gotTeams).toEqual(teams.slice(0, 2));
   })
@@ -145,7 +145,7 @@ describe("Test TeamsController", () => {
   })
 
   it("Get players teams", async () => {
-    const opres = await SUT.getPlayerTeams(2, null);
+    const opres = await SUT.getPlayerTeams(2);
     expect(opres).toEqual([teams[1]]);
   })
 });
@@ -172,7 +172,7 @@ class MockPlayersRepo implements IPlayersRepo {
     return this.players[idx];
   }
 
-  async getPlayers(limit: number | null) {
+  async getPlayers(limit?: number | null) {
     const players = this.players;
     return players.length
       ? limit
@@ -268,13 +268,13 @@ describe("Test PlayersController", () => {
   })
 
   it("Get Players", async () => {
-    const actual = await SUT.getPlayers(null);
+    const actual = await SUT.getPlayers();
     expect(players).toEqual(actual);
   })
 
   it("Delete Player", async () => {
     const opres = await SUT.delPlayer(3);
-    const actual = await SUT.getPlayers(null);
+    const actual = await SUT.getPlayers();
     expect(opres).toBeTruthy();
     expect(players.slice(0, 2)).toEqual(actual);
   })

@@ -39,7 +39,7 @@ export class PlayersRepo implements IPlayersRepo {
     return qres ? true : false;
   }
 
-  async getPlayers(limit: number | null) {
+  async getPlayers(limit?: number) {
     const playersQuery = `SELECT * FROM ${PLAYERS_TABLE};`;
     const teamsQuery = `select * from ${TEAM_PLAYER_TABLE};`;
     const playersRes = await executeQuery(playersQuery, this.conn);

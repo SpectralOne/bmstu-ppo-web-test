@@ -20,7 +20,7 @@ export class PlayersController {
     return await this.PlayersRepo.getPlayer(id);
   }
 
-  async getPlayers(limit: number | null) {
+  async getPlayers(limit?: number) {
     return await this.PlayersRepo.getPlayers(limit);
   }
 
