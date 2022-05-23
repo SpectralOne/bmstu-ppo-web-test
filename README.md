@@ -34,3 +34,6 @@
 * pgadmin - db admin
 * nginx - proxy server
 * docker - deploy app
+
+10. UML-диаграмма технологического UI
+![tech_gui](./schemes/tech_gui.png)

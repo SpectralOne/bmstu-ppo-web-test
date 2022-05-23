@@ -44,17 +44,17 @@ export class UsersRepo implements IUsersRepo {
     return qres ? true : false;
   }
 
-  async getUserByLogin(login: string, password: string) {
+  async getUserByLogin(login: string) {
     const userExists = await this.userExists(login);
 
     if (!userExists) {
       return null;
     }
 
-    const query = `SELECT * FROM ${USERS_TABLE} WHERE login = '${login}' AND password = '${password}';`;
+    const query = `SELECT * FROM ${USERS_TABLE} WHERE login = '${login}';`;
     const res = await executeQuery(query, this.conn);
     return res
-      ? new User(res.rows[0].id, res.rows[0].login, "", res.rows[0].privelegelevel)
+      ? new User(res.rows[0].id, res.rows[0].login, res.rows[0].password, res.rows[0].privelegelevel)
       : null;
   }
 }

@@ -12,4 +12,8 @@ export class Team {
     this.description = description;
     this.players = players;
   }
+
+  toString(): string {
+    return `${this.id}: ${this.name} (${this.description})\n`;
+  }
 }

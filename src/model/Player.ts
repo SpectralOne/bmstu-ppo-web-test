@@ -16,4 +16,8 @@ export class Player {
     this.birthdate = birthdate;
     this.teams = teams;
   }
+
+  toString(): string {
+    return `${this.id}: ${this.lastname} ${this.firstname} from ${this.country}, born ${this.birthdate.toString()}\n`;
+  }
 }

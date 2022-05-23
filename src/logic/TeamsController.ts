@@ -20,10 +20,10 @@ export class TeamsController {
     return await this.TeamsRepo.getTeam(id);
   }
 
-  async getTeams(limit: number | null) {
+  async getTeams(limit?: number) {
     return await this.TeamsRepo.getTeams(limit);
   }
-  async getPlayerTeams(id: number, limit: number | null) {
+  async getPlayerTeams(id: number, limit?: number) {
     return await this.TeamsRepo.getPlayerTeams(id, limit);
   }
 }

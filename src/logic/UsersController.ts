@@ -12,8 +12,8 @@ export class UsersController {
     return await this.UsersRepo.addUser(user);
   }
 
-  async getUserByLogin(login: string, password: string) {
-    return await this.UsersRepo.getUserByLogin(login, password);
+  async getUserByLogin(login: string) {
+    return await this.UsersRepo.getUserByLogin(login);
   }
 
   async userExists(login: string) {
