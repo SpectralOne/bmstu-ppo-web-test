@@ -9,6 +9,7 @@ import { TeamsManager } from "../teams_manager/manager";
 import { TeamsController } from "../../logic/TeamsController";
 import { AuthManager } from "../auth_manager/manager";
 import { AuthController } from "../../logic/AuthController";
+import { AppError, isAppError } from "./error";
 
 export class App {
   state: AppState;
@@ -29,15 +30,21 @@ export class App {
     try {
       const res = await this.authManager.processRequest(request);
       if (res) {
-        const decoded: any = jwt.decode(res);
+        const token: string = res.split(' ')[1];
+        const decoded: any = jwt.decode(token);
         const parsed: any = JSON.parse(decoded.data);
         this.state.toAuthorizedId(parsed.id);
         this.printer.authentification(true, true);
       }
-    } catch (err: any) {
+    } catch (err) {
       this.state.toUnauthorized();
       this.printer.authentification(true, false);
-      this.printer.printError(err.exInfo());
+
+      if (isAppError(err)) {
+        this.printer.printError((<AppError>err).exInfo());
+      } else {
+        console.log(err);
+      }
     }
   }
 
@@ -48,11 +55,15 @@ export class App {
         this.state.toAuthorized();
         this.printer.teamsManager(true);
       }
-    } catch (err: any) {
+    } catch (err) {
       this.state.toAuthorized()
       this.printer.teamsManager(false);
-      console.log(err);
-      this.printer.printError(err.exInfo());
+
+      if (isAppError(err)) {
+        this.printer.printError((<AppError>err).exInfo());
+      } else {
+        console.log(err);
+      }
     }
   }
 
@@ -63,10 +74,15 @@ export class App {
         this.state.toAuthorized();
         this.printer.playersManager(true);
       }
-    } catch (err: any) {
+    } catch (err) {
       this.state.toAuthorized()
       this.printer.playersManager(false);
-      this.printer.printError(err.exInfo());
+
+      if (isAppError(err)) {
+        this.printer.printError((<AppError>err).exInfo());
+      } else {
+        console.log(err);
+      }
     }
   }
 

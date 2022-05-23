@@ -31,7 +31,7 @@ const main = async () => {
   const app = new App(playersController, teamsController, authController);
   for (; ;) {
     app.printInvite();
-    const request = question();
+    const request = question("> ");
     await app.processRequest(request);
   }
 }

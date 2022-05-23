@@ -54,7 +54,7 @@ export class UsersRepo implements IUsersRepo {
     const query = `SELECT * FROM ${USERS_TABLE} WHERE login = '${login}';`;
     const res = await executeQuery(query, this.conn);
     return res
-      ? new User(res.rows[0].id, res.rows[0].login, "", res.rows[0].privelegelevel)
+      ? new User(res.rows[0].id, res.rows[0].login, res.rows[0].password, res.rows[0].privelegelevel)
       : null;
   }
 }

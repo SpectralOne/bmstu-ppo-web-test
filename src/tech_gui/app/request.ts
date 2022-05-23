@@ -1,6 +1,7 @@
 export enum RequestOps {
   EXIT_ALL,
   EXIT,
+  SIGNUP,
   SIGNIN,
   LIST_PLAYERS,
   ADD_PLAYER,

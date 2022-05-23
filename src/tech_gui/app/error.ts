@@ -5,3 +5,7 @@ export class AppError extends BaseError {
     super(msg);
   }
 }
+
+export const isAppError = (err: any) => {
+  return err instanceof AppError;
+}

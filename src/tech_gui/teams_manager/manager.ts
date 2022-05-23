@@ -47,9 +47,11 @@ export class TeamsManager {
   async processRequest(rawRequest: string) {
     switch (this.state) {
       case TeamsState.WAIT_TEAM_DEL:
+        this.printer.processing();
         return await this.controller.delTeam(+rawRequest);
 
       case TeamsState.WAIT_TEAM_ADD:
+        this.printer.processing();
         return await this.controller.addTeam(this.inner.buildTeam());
 
       case TeamsState.WAIT_TEAM_NAME:

@@ -7,6 +7,10 @@ export class PlayersPrinter {
     console.log(player.toString());
   }
 
+  processing(): void {
+    console.log("Выполняю...");
+  }
+
   inviteTeamId(): void {
     console.log("Введите ID команды: ");
   }

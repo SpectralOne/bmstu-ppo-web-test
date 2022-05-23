@@ -1,6 +1,10 @@
 import { Team } from "../../model/Team";
 
 export class TeamsPrinter {
+  processing(): void {
+    console.log("Выполняю...");
+  }
+
   printTeam(team: Team): void {
     console.log(team.toString());
   }
