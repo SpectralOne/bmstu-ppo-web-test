@@ -84,11 +84,11 @@ export class PlayersManager {
 
       case PlayersState.WAIT_ADD_TO_TEAM:
         this.printer.processing();
-        return this.controller.addPlayerTeam(this.inner.playerid, +rawRequest);
+        return await this.controller.addPlayerTeam(+rawRequest, this.inner.teamid);
 
       case PlayersState.WAIT_DEL_FROM_TEAM:
         this.printer.processing();
-        return this.controller.delPlayerTeam(this.inner.playerid, +rawRequest);
+        return await this.controller.delPlayerTeam(+rawRequest, this.inner.teamid);
 
       default:
         return null;
@@ -160,16 +160,16 @@ export class PlayersManager {
 
   addToTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
-    this.printer.inviteTeamId();
     this.state = PlayersState.WAIT_PLAYER_TO_ADD;
+    this.printer.inviteTeamId();
 
     return null;
   }
 
   delFromTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
-    this.printer.inviteTeamId();
     this.state = PlayersState.WAIT_PLAYER_TO_DEL;
+    this.printer.inviteTeamId();
 
     return null;
   }
@@ -180,8 +180,8 @@ export class PlayersManager {
     }
 
     this.inner.teamid = +rawRequest;
-    this.printer.invitePlayerId();
     this.state = PlayersState.WAIT_ADD_TO_TEAM;
+    this.printer.invitePlayerId();
 
     return null;
   }
@@ -192,9 +192,8 @@ export class PlayersManager {
     }
 
     this.inner.teamid = +rawRequest;
-    this.printer.invitePlayerId();
     this.state = PlayersState.WAIT_DEL_FROM_TEAM;
-
+    this.printer.invitePlayerId();
 
     return null;
   }

@@ -86,6 +86,12 @@ export class App {
     }
   }
 
+  ensureAuthorized() {
+    if (!this.state.isAuthorized()) {
+      throw new AppError("Sign in to perform this operation");
+    }
+  }
+
   async processRequest(rawRequest: string) {
     if (this.state.isAuthentification()) {
       await this.processAuth(rawRequest);
@@ -112,7 +118,17 @@ export class App {
     if (request === null) {
       this.printer.printError("Can't parse request");
     } else {
-      await this.processParsedRequest(request);
+      try {
+        await this.processParsedRequest(request);
+      } catch (err) {
+        this.state.toAuthorized()
+
+        if (isAppError(err)) {
+          this.printer.printError((<AppError>err).exInfo());
+        } else {
+          console.log(err);
+        }
+      }
     }
   }
 
@@ -140,65 +156,56 @@ export class App {
         break;
 
       case RequestOps.ADD_PLAYER:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          this.playersManager.addPlayer(requester);
-          this.state.toPlayersManagement();
-        }
+        this.ensureAuthorized();
+
+        this.playersManager.addPlayer(requester);
+        this.state.toPlayersManagement();
         break;
 
       case RequestOps.REMOVE_PLAYER:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          this.playersManager.delPlayer(requester);
-          this.state.toPlayersManagement();
-        }
+        this.ensureAuthorized();
+
+        this.playersManager.delPlayer(requester);
+        this.state.toPlayersManagement();
         break;
 
       case RequestOps.ADD_TEAM:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          await this.teamsManager.addTeam(requester);
-          this.state.toTeamsManagement();
-        }
+        this.ensureAuthorized();
+
+        this.teamsManager.addTeam(requester);
+        this.state.toTeamsManagement();
         break;
 
       case RequestOps.REMOVE_TEAM:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          await this.teamsManager.delTeam(requester);
-          this.state.toTeamsManagement();
-        }
+        this.ensureAuthorized();
+
+        this.teamsManager.delTeam(requester);
+        this.state.toTeamsManagement();
         break;
 
       case RequestOps.ADD_TO_TEAM:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          await this.playersManager.addToTeam(requester);
-          this.state.toTeamsManagement();
-        }
+        this.ensureAuthorized();
+
+        this.playersManager.addToTeam(requester);
+        this.state.toPlayersManagement();
         break;
 
       case RequestOps.REMOVE_FROM_TEAM:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          await this.playersManager.delFromTeam(requester);
-          this.state.toTeamsManagement();
-        }
+        this.ensureAuthorized();
+
+        this.playersManager.delFromTeam(requester);
+        this.state.toPlayersManagement();
         break;
 
       case RequestOps.LIST_TEAMS:
-        if (!this.state.isAuthorized()) {
-          this.printer.printError("Sign in to perform this operation");
-        } else {
-          await this.teamsManager.listTeams();
-        }
+        await this.teamsManager.listTeams();
+        break;
+
+      case RequestOps.LIST_SQUADS:
+        this.ensureAuthorized();
+
+        await this.teamsManager.listPlayerTeams(requester);
+        this.state.toTeamsManagement();
         break;
 
       default:

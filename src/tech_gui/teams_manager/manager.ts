@@ -60,12 +60,19 @@ export class TeamsManager {
       case TeamsState.WAIT_TEAM_DESC:
         return this.processTeamDesc(rawRequest);
 
-      default:
+      case TeamsState.GET_PLAYER_TEAMS:
+        const teams = await this.controller.getPlayerTeams(+rawRequest);
+        if (teams) {
+          teams.forEach(t => this.printer.printTeam(t));
+        }
+        return 12;
         break;
-    }
 
+      default:
+        return null;
+    }
   }
-  
+
   delTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
     this.printer.inviteTeamId();
@@ -104,4 +111,13 @@ export class TeamsManager {
 
     return null;
   }
+
+  async listPlayerTeams(requesterId: number) {
+    this.inner.requesterId = requesterId;
+    this.printer.invitePlayerId();
+    this.state = TeamsState.GET_PLAYER_TEAMS;
+
+    return null
+  }
+
 }

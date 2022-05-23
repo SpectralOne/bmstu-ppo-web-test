@@ -4,4 +4,5 @@ export const enum TeamsState {
   WAIT_TEAM_DEL,
   WAIT_TEAM_NAME,
   WAIT_TEAM_DESC,
+  GET_PLAYER_TEAMS
 }

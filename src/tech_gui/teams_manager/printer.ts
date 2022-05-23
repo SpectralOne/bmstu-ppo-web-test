@@ -20,4 +20,8 @@ export class TeamsPrinter {
   inviteTeamId(): void {
     console.log("Введите Id команды: ");
   }
+
+  invitePlayerId(): void {
+    console.log("Введите ID игрока: ");
+  }
 }
