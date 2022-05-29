@@ -32,7 +32,7 @@ export class PlayersRepo implements IPlayersRepo {
     console.log(`birthdate: ${birthdate}`);
     const bd = birthdate.toISOString();
 
-    const query = `INSERT INTO ${PLAYERS_TABLE} (firstname, lastname, country, birthdate, owner) \ 
+    const query = `INSERT INTO ${PLAYERS_TABLE} (firstname, lastname, country, birthdate, owner) \
       VALUES ('${firstname}', '${lastname}', '${country}', '${bd}', ${owner});`;
 
     const qres = await executeQuery(query, this.conn);

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-import { Request } from "express";
+import { Request, Response } from "express";
 import { PermissionError, NotFoundError } from "../logic/error";
 import { IUsersRepo } from "../db/IUsersRepo";
 import { User } from "../model/User";
@@ -18,7 +18,7 @@ export class AuthController {
     const dbUser = await this.usersRepo.getUserByLogin(login);
     if (!dbUser)
       throw new NotFoundError("User not found in database");
-    if (dbUser.password != password)
+    if (dbUser.password !== password)
       throw new PermissionError("Wrong password");
     return this.generateToken(dbUser);
   }
@@ -53,6 +53,11 @@ export class AuthController {
     return JSON.parse(decoded.data);
   }
 
-  async logout(_token: any) {
+  // ?
+  async resetHeader(res: Response) {
+    res.clearCookie("jwtToken");
+  }
+
+  async logout(token?: any) {
   }
 }

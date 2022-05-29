@@ -15,7 +15,7 @@ export const executeQuery = async (q: string, conn: Pool) => {
 }
 
 export const coerceDate = (date: Date) => {
-  if (date.getTimezoneOffset() != 0)
+  if (date.getTimezoneOffset() !== 0)
     date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
   return date;
 }

@@ -14,6 +14,6 @@ export class Team {
   }
 
   toString(): string {
-    return `${this.id}: ${this.name} (${this.description})\n`;
+    return `${this.id}: ${this.name} (${this.description})`;
   }
 }
