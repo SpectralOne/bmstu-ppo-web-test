@@ -19,12 +19,12 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react",
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true
   },
   "exclude": [
-    "./src/server "
+    "./src/server",
+    "./jest.config.ts"
   ]
 }

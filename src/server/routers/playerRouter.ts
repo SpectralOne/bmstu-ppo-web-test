@@ -86,7 +86,7 @@ playerRouter.get("/players/:playerId", getPlayer);
  * @returns {string} 405 - invalid input
  * @security JWT
  */
-playerRouter.delete("/players/:playerId", auth, deletePlayer);
+playerRouter.delete("/players/:playerId", deletePlayer);
 
 /**
  * Get all players collection
@@ -111,6 +111,6 @@ playerRouter.get("/players", getAllPlayers);
  * @returns {string} 405 - invalid input
  * @security JWT
  */
-playerRouter.post("/player", auth, postPlayer);
+playerRouter.post("/player", postPlayer);
 
 export default playerRouter;

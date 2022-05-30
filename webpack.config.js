@@ -26,7 +26,7 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           {
-            loader: 'awesome-typescript-loader'
+            loader: 'ts-loader'
           },
         ],
         exclude: /node_modules/
@@ -37,26 +37,34 @@ module.exports = {
         loader: 'source-map-loader'
       },
       {
-        test: /\.less$/,
+        test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
           {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: './Less',
-              hmr: process.env.NODE_ENV === 'development',
-            },
-          },
-          { loader: 'css-loader' },
-          {
-            loader: 'less-loader',
-            options: {
-              strictMath: true,
-              noIeCompat: true,
-            }
-          },
+            loader: 'css-loader'
+          }
         ]
       },
+      // {
+      //   test: /\.less$/,
+      //   use: [
+      //     { loader: 'style-loader' },
+      //     {
+      //       loader: MiniCssExtractPlugin.loader,
+      //       options: {
+      //         publicPath: './Less',
+      //         hmr: process.env.NODE_ENV === 'development',
+      //       },
+      //     },
+      //     { loader: 'css-loader' },
+      //     {
+      //       loader: 'less-loader',
+      //       options: {
+      //         strictMath: true,
+      //         noIeCompat: true,
+      //       }
+      //     },
+      //   ]
+      // },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
         loader: 'url-loader?limit=100000'
@@ -64,12 +72,14 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json', '.less']
+    extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json', '.css']
   },
   devServer: {
-    port: 3000,
+    port: process.env.CPORT || 3001,
     open: true,
     hot: true,
+    historyApiFallback: true,
+    contentBase: './',
     proxy: {
       '/api/v1/**': {
         target: 'http://localhost:3000',
@@ -79,7 +89,7 @@ module.exports = {
     }
   },
   plugins: [
-    new CleanWebpackPlugin([outputDirectory]),
+    // new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       favicon: './public/favicon.ico',
@@ -90,7 +100,7 @@ module.exports = {
       chunkFilename: './css/[id].css',
     }),
     new CopyPlugin([
-      { from: './src/client/Assets', to: 'assets' },
+      { from: './src/client/assets', to: 'assets' },
     ])
   ],
 };

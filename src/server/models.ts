@@ -71,7 +71,7 @@ export class DTOPlayer {
     this.firstname = obj.firstname;
     this.lastname = obj.lastname;
     this.country = obj.country;
-    this.birthdate = correctDate(obj.dob);
+    this.birthdate = correctDate(obj.birthdate);
     this.teams = obj.teams;
   }
 
