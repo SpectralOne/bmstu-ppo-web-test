@@ -1,0 +1,10 @@
+**
+
+!/src
+!/package.json
+!/tsconfig.json
+!/tsconfig.backend.json
+!/nodemon.json
+!/webpack.config.js
+!/.babelrc
+!/public    
