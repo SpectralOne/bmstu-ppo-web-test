@@ -23,12 +23,25 @@ export interface TeamsResponse {
   ret: Team[]
 }
 
+export interface HistoryTeamsResponse {
+  ret: HistoryTeam[]
+}
+
 export interface Team {
   id?: number;
   owner?: number;
   name?: string;
   description?: string;
   players?: number[];
+}
+
+export interface HistoryTeam {
+  id: number;
+  owner: number;
+  name: string;
+  description: string;
+  players?: number[];
+  leaved: Date;
 }
 
 export interface User {

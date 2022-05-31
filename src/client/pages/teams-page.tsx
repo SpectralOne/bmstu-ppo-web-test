@@ -42,6 +42,7 @@ const TeamsPage: React.FC = () => {
         </Flex>
       ) : (
         <TeamsTable
+          deletea={true}
           teams={teams}
           onDelete={(t: Team) => {
             const id: number = t.id || -1

@@ -14,8 +14,8 @@ import {
 import { TeamsService } from '../services'
 import styled from '@emotion/styled'
 import Loader from '../components/Loader'
-import TeamsTable from '../components/TeamsTable'
-import { Team } from '../types'
+import HistoryTeamsTable from '../components/HistoryTeamsTable'
+import { HistoryTeam } from '../types'
 
 
 const SavedContainer = styled.div`
@@ -23,7 +23,7 @@ const SavedContainer = styled.div`
 `
 
 const PlayerTeamsPage: React.FC = () => {
-  const [teams, setTeams] = useState<Team[]>([])
+  const [teams, setTeams] = useState<HistoryTeam[]>([])
   const [id, setId] = useState(-1)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(false)
@@ -47,7 +47,7 @@ const PlayerTeamsPage: React.FC = () => {
 
   useEffect(() => {    
     if (submit && !error) {
-      TeamsService.getPlayerTeams(id).then(teamsRes => {
+      TeamsService.getPlayerHistory(id).then(teamsRes => {
         setTeams(teamsRes.ret || [])
       })
       setSaved(true)
@@ -64,14 +64,12 @@ const PlayerTeamsPage: React.FC = () => {
 
   return (
     <SmallPage>
-      <SectionTitle>Get Player Teams</SectionTitle>
+      <SectionTitle>Get Previous Player Teams</SectionTitle>
       <HorizontalLine />
       {saved ? (
         <SavedContainer>
-          <TeamsTable
-            deletea={false}
+          <HistoryTeamsTable
             teams={teams}
-            onDelete={() => 0}
           />
           <Button onClick={() => setSaved(false)}>Request Again</Button>
         </SavedContainer>

@@ -23,7 +23,12 @@ export class TeamsController {
   async getTeams(limit?: number) {
     return await this.TeamsRepo.getTeams(limit);
   }
+
   async getPlayerTeams(id: number, limit?: number) {
     return await this.TeamsRepo.getPlayerTeams(id, limit);
+  }
+
+  async getPlayerHistory(id: number) {
+    return await this.TeamsRepo.getPlayerHistory(id);
   }
 }

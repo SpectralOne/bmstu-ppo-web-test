@@ -14,7 +14,7 @@ import { getToken, setToken } from './utils'
 import AddPlayerTeamPage from './pages/add-player-team'
 import RemovePlayerTeamPage from './pages/remove-player-team'
 import PlayerTeamsPage from './pages/player-teams-page'
-import { useEffect } from 'react'
+import PlayerHistoryPage from './pages/player-history-page'
 
 const AppContainer = styled.div`
   background-color: ${colors.appBg};
@@ -53,6 +53,7 @@ export const App: React.FC = () => {
             <Route path="/teams/add" exact component={() => <AddPlayerTeamPage />} />
             <Route path="/teams/delete" exact component={() => <RemovePlayerTeamPage />} />
             <Route path="/player/teams" exact component={() => <PlayerTeamsPage />} />
+            <Route path="/player/history" exact component={() => <PlayerHistoryPage />} />
           </Switch>
         </Page>
       </AppContainer>

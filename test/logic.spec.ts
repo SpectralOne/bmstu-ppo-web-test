@@ -110,6 +110,11 @@ class MockTeamsRepo implements ITeamsRepo {
 
     return false;
   }
+
+  async getPlayerHistory(id: number) {
+    return []
+  }
+
 }
 
 describe("Test TeamsController", () => {

@@ -11,7 +11,8 @@ export enum RequestOps {
   ADD_TO_TEAM,
   REMOVE_FROM_TEAM,
   LIST_TEAMS,
-  LIST_SQUADS
+  LIST_SQUADS,
+  GET_PLAYER_HISTORY
 }
 
 export const parseRequest = (rawRequest: any) => {
@@ -19,7 +20,7 @@ export const parseRequest = (rawRequest: any) => {
   return (
     num === NaN ||
     num < RequestOps.EXIT_ALL ||
-    num > RequestOps.LIST_SQUADS)
+    num > RequestOps.GET_PLAYER_HISTORY)
 
     ? null
     : num;

@@ -1,4 +1,4 @@
-import { Team } from "../../model/Team";
+import { HistoryTeam, Team } from "../../model/Team";
 
 export class TeamsPrinter {
   processing(): void {
@@ -23,5 +23,9 @@ export class TeamsPrinter {
 
   invitePlayerId(): void {
     console.log("Введите ID игрока: ");
+  }
+
+  printHistory(history: HistoryTeam) {
+    console.log(history.toString());
   }
 }

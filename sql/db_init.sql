@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS players CASCADE;
 DROP TABLE IF EXISTS teams CASCADE;
 DROP TABLE IF EXISTS teamplayer CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS history CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
     id serial primary key,
@@ -31,6 +32,15 @@ CREATE TABLE IF NOT EXISTS players (
 CREATE TABLE IF NOT EXISTS teamplayer (
     teamid int,
     playerid int,
+    FOREIGN KEY (teamid) REFERENCES teams (id),
+    FOREIGN KEY (playerid) REFERENCES players (id)
+);
+
+CREATE TABLE IF NOT EXISTS history (
+    id serial primary key,
+    playerid int,
+    teamid int,
+    leaved date,
     FOREIGN KEY (teamid) REFERENCES teams (id),
     FOREIGN KEY (playerid) REFERENCES players (id)
 );

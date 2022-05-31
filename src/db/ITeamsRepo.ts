@@ -1,4 +1,4 @@
-import { Team } from "../model/Team";
+import { HistoryTeam, Team } from "../model/Team";
 
 export interface ITeamsRepo {
   getTeam(id: number): Promise<Team | null>;
@@ -6,4 +6,5 @@ export interface ITeamsRepo {
   getPlayerTeams(id: number, limit?: number): Promise<Team[] | null>;
   delTeam(id: number): Promise<boolean>;
   addTeam(team: Team): Promise<boolean>;
+  getPlayerHistory(id: number): Promise<HistoryTeam[] | null>;
 }
