@@ -79,23 +79,22 @@ export class TeamsRepo implements ITeamsRepo {
   }
 
   async getPlayerTeams(id: number, limit?: number) {
-    const teamsQuery: string = `SELECT * FROM ${TEAMS_TABLE};`;
-    const playersQuery: string = `SELECT * FROM ${TEAM_PLAYER_TABLE} where playerid = ${id};`;
+    const query: string = `SELECT id, owner, description, name FROM ${TEAM_PLAYER_TABLE} tp \
+      JOIN ${TEAMS_TABLE} p ON p.id = tp.teamid WHERE playerid = ${id}`;
 
-    const teamsRes = await executeQuery(teamsQuery, this.conn);
-    const playerRes = await executeQuery(playersQuery, this.conn);
-
-    if (!teamsRes?.rows.length || !playerRes?.rows.length) {
+    const res = await executeQuery(query, this.conn);
+    if (!res?.rows.length) {
       return null;
     }
 
-    const teams = teamsRes.rows.map((t: Team) =>
+    const teams = res.rows.map((t: Team) =>
       new Team(
         t.id,
         t.owner,
         t.description,
         t.name,
-        playerRes.rows.filter(x => x.teamid === t.id).map(x => x.playerid)));
+        []
+      ));
 
     return limit
       ? teams.sort((c, n) => c.id > n.id ? -1 : 1).slice(0, limit)

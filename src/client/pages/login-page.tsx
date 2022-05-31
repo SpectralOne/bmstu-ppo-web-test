@@ -20,12 +20,13 @@ const SavedContainer = styled.div`
 
 interface Props {
   setToken: (t: any) => void
+  setSuccess: (t: any) => void
 }
 
 const LoginPage: React.FC<Props> = (props: Props) => {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(false)
-  const { setToken } = props
+  const { setToken, setSuccess } = props
 
   return (
     <SmallPage>
@@ -42,6 +43,7 @@ const LoginPage: React.FC<Props> = (props: Props) => {
                 AuthService.login(user).then((response: any) => {
                   setToken(response.data)
                   setError(false)
+                  setSuccess(true)
                   setSaving(false)
                 }).catch(() => setError(true))
               }}

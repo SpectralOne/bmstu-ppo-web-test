@@ -19,7 +19,24 @@ export interface Player {
   teams?: number[]
 }
 
+export interface TeamsResponse {
+  ret: Team[]
+}
+
+export interface Team {
+  id?: number;
+  owner?: number;
+  name?: string;
+  description?: string;
+  players?: number[];
+}
+
 export interface User {
   login: string
   password: string
+}
+
+export interface PlayerTeam {
+  playerid?: number
+  teamid?: number
 }

@@ -27,7 +27,7 @@ const playerRouter: Router = express.Router();
  * @returns {string} 405 - Invalid input
  * @security JWT
  */
-playerRouter.patch("/players/:teamId/player", auth, addPlayerTeam);
+playerRouter.patch("/players/:teamId/player", addPlayerTeam);
 
 /**
  * Delete player from team
@@ -44,7 +44,7 @@ playerRouter.patch("/players/:teamId/player", auth, addPlayerTeam);
  * @returns {string} 405 - Invalid input
  * @security JWT
  */
-playerRouter.delete("/players/:teamId/player", auth, deletePlayerTeam);
+playerRouter.delete("/players/:teamId/player", deletePlayerTeam);
 
 /**
  * Get player by id

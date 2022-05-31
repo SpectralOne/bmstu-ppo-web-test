@@ -55,31 +55,30 @@ export const postPlayer = (req: Request, res: Response, _next: NextFunction) => 
   });
 };
 
-
 export const addPlayerTeam = (req: Request, res: Response, _next: NextFunction) => {
   safetyWrapper(res, async () => {
-    const playerId = req.body && parseInt(req.body);
+    const playerId = req.body.playerid && parseInt(req.body.playerid);
     if (!playerId)
       throw new InvalidArgumentError("Can't parse player ID in body");
     const teamId = req.params.teamId && parseInt(req.params.teamId);
     if (!teamId)
       throw new InvalidArgumentError("Can't parse team ID");
     // exception, if no such team or player
-    await playersController.addPlayerTeam(teamId, playerId);
+    await playersController.addPlayerTeam(playerId, teamId);
     res.status(200).send("ok");
   });
 };
 
 export const deletePlayerTeam = (req: Request, res: Response, _next: NextFunction) => {
   safetyWrapper(res, async () => {
-    const playerId = req.body && parseInt(req.body);
+    const playerId = req.body.playerid && parseInt(req.body.playerid);
     if (!playerId)
       throw new InvalidArgumentError("Can't parse player ID in body");
     const teamId = req.params.teamId && parseInt(req.params.teamId);
     if (!teamId)
       throw new InvalidArgumentError("Can't parse team ID");
     // exception, if no such team or player
-    await playersController.delPlayerTeam(teamId, playerId);
+    await playersController.delPlayerTeam(playerId, teamId);
     res.status(200).send("ok");
   });
 };

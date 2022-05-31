@@ -59,7 +59,7 @@ teamRouter.get("/teams/:teamId", getTeam);
  * @returns {string} 405 - Invalid input
  * @security JWT
  */
-teamRouter.delete("/teams/:teamId", auth, deleteTeam);
+teamRouter.delete("/teams/:teamId", deleteTeam);
 
 /**
  * Get all teams
@@ -84,6 +84,6 @@ teamRouter.get("/teams", getAllTeams);
  * @returns {string} 405 - Invalid input
  * @security JWT
  */
-teamRouter.post("/team", auth, addNewTeam);
+teamRouter.post("/team", addNewTeam);
 
 export default teamRouter;

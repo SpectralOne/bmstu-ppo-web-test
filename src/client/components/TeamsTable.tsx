@@ -1,5 +1,5 @@
 import React from 'react'
-import { Player } from '../types'
+import { Team } from '../types'
 import { colors } from '../theme'
 import styled from '@emotion/styled'
 import DeleteConfirmation from "./DeleteConfirmation";
@@ -23,26 +23,28 @@ const Table = styled.table`
 `
 
 interface Props {
-  players: Player[]
-  onDelete: (plant: Player) => void
+  teams: Team[]
+  onDelete: (t: Team) => void
 }
 
-const PlayersTable: React.FC<Props> = ({ players, onDelete }) => (
+const TeamsTable: React.FC<Props> = ({ teams, onDelete }) => (
   <Table cellPadding={0} cellSpacing={0}>
     <thead>
     <tr>
       <th>ID</th>
-      <th>Player Name</th>
+      <th>Team name</th>
+      <th>Description</th>
       <th/>
     </tr>
     </thead>
     <tbody>
-    {players.map((p, i) => (
-      <tr key={i} data-id={p.id}>
-        <td>{p.id}</td> 
-        <td>{p.firstname} {p.lastname}</td>
+    {teams.map((t, i) => (
+      <tr key={i} data-id={t.id}>
+        <td>{t.id}</td>
+        <td>{t.name}</td>
+        <td>{t.description}</td>
         <td>
-          <DeleteConfirmation onDelete={() => onDelete(p)}/>
+          <DeleteConfirmation onDelete={() => onDelete(t)}/>
         </td>
       </tr>
     ))}
@@ -51,4 +53,4 @@ const PlayersTable: React.FC<Props> = ({ players, onDelete }) => (
 )
 
 
-export default PlayersTable
+export default TeamsTable

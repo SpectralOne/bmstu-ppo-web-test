@@ -7,7 +7,7 @@ import { safetyWrapper } from "../common";
 
 export const getPlayerTeams = (req: Request, res: Response, _next: NextFunction) => {
   safetyWrapper(res, async () => {
-    const id = req.params.id && parseInt(req.params.id);
+    const id = req.params.playerId && parseInt(req.params.playerId);
     if (!id)
       throw new InvalidArgumentError("Can't parse players ID");
     const teams = await teamsController.getPlayerTeams(id);

@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
 import React from "react";
-import {NavLink} from "react-router-dom";
-import {breakpoints} from "../theme";
+import { NavLink } from "react-router-dom";
+import { breakpoints } from "../theme";
+import { setToken } from '../utils';
 
 const NavContainer = styled.nav`
   margin-right: 16px;
@@ -39,7 +40,16 @@ const NavLinkStyled = styled(NavLink)`
 const Nav: React.FC = () => (
   <NavContainer>
     <NavLinkStyled exact activeClassName="active" to="/">Dashboard</NavLinkStyled>
-    <NavLinkStyled activeClassName="active" to="/players">All Players</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/players">All Players</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/teams">All Teams</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/teams/add">Add Player To Team</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/teams/delete">Del Player From Team</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/player/teams">Player Teams</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" onClick={() => {
+      setToken("")
+      window.location.reload()
+    }} 
+      to="/logout">Logout</NavLinkStyled>
   </NavContainer>
 )
 
