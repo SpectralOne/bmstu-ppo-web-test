@@ -48,7 +48,9 @@ export class TeamsManager {
     switch (this.state) {
       case TeamsState.WAIT_TEAM_DEL:
         this.printer.processing();
-        return await this.controller.delTeam(+rawRequest);
+        await this.controller.delTeam(+rawRequest);
+        
+        return true;
 
       case TeamsState.GET_PLAYER_HISTORY:
         const history = await this.controller.getPlayerHistory(+rawRequest);
@@ -56,26 +58,25 @@ export class TeamsManager {
           history.forEach(h => this.printer.printHistory(h));
 
         }
-        return 12;
-        break;
+        return true;
 
       case TeamsState.WAIT_TEAM_ADD:
         this.printer.processing();
-        return await this.controller.addTeam(this.inner.buildTeam());
+        await this.controller.addTeam(this.inner.buildTeam());
+        return true;
 
       case TeamsState.WAIT_TEAM_NAME:
-        return this.processTeamName(rawRequest);
+        return await this.processTeamName(rawRequest);
 
       case TeamsState.WAIT_TEAM_DESC:
-        return this.processTeamDesc(rawRequest);
+        return await this.processTeamDesc(rawRequest);
 
       case TeamsState.GET_PLAYER_TEAMS:
         const teams = await this.controller.getPlayerTeams(+rawRequest);
         if (teams) {
           teams.forEach(t => this.printer.printTeam(t));
         }
-        return 12;
-        break;
+        return true;
 
       default:
         return null;
@@ -87,18 +88,18 @@ export class TeamsManager {
     this.printer.invitePlayerId();
     this.state = TeamsState.GET_PLAYER_HISTORY;
 
-    return null;
+    return true;
   }
 
-  delTeam(requesterId: number) {
+  async delTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
     this.printer.inviteTeamId();
     this.state = TeamsState.WAIT_TEAM_DEL;
 
-    return null;
+    return true;
   }
 
-  addTeam(requesterId: number) {
+  async addTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
     this.state = TeamsState.WAIT_TEAM_NAME;
     this.printer.inviteTeamName();
@@ -106,7 +107,7 @@ export class TeamsManager {
     return null;
   }
 
-  processTeamName(rawRequest: string) {
+  async processTeamName(rawRequest: string) {
     if (this.state !== TeamsState.WAIT_TEAM_NAME) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -118,7 +119,7 @@ export class TeamsManager {
     return null;
   }
 
-  processTeamDesc(rawRequest: string) {
+  async processTeamDesc(rawRequest: string) {
     if (this.state !== TeamsState.WAIT_TEAM_DESC) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -126,7 +127,7 @@ export class TeamsManager {
     this.inner.teamDesc = rawRequest;
     this.state = TeamsState.WAIT_TEAM_ADD;
 
-    return null;
+    return true;
   }
 
   async listPlayerTeams(requesterId: number) {
@@ -134,7 +135,7 @@ export class TeamsManager {
     this.printer.invitePlayerId();
     this.state = TeamsState.GET_PLAYER_TEAMS;
 
-    return null
+    return true
   }
 
 }

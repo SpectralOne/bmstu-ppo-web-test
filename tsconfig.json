@@ -25,6 +25,7 @@
   },
   "exclude": [
     "./src/server",
-    "./jest.config.ts"
+    "./jest.config.ts",
+    ".env"
   ]
 }
