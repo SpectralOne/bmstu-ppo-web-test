@@ -5,6 +5,7 @@ export const PLAYERS_TABLE = "players";
 export const TEAM_PLAYER_TABLE = "teamplayer";
 export const TEAMS_TABLE = "teams";
 export const USERS_TABLE = "users";
+export const HISTORY_TABLE = "history";
 
 export const executeQuery = async (q: string, conn: Pool) => {
   try {

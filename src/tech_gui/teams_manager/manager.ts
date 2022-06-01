@@ -50,6 +50,15 @@ export class TeamsManager {
         this.printer.processing();
         return await this.controller.delTeam(+rawRequest);
 
+      case TeamsState.GET_PLAYER_HISTORY:
+        const history = await this.controller.getPlayerHistory(+rawRequest);
+        if (history) {
+          history.forEach(h => this.printer.printHistory(h));
+
+        }
+        return 12;
+        break;
+
       case TeamsState.WAIT_TEAM_ADD:
         this.printer.processing();
         return await this.controller.addTeam(this.inner.buildTeam());
@@ -71,6 +80,14 @@ export class TeamsManager {
       default:
         return null;
     }
+  }
+
+  async getPlayerHistory(requesterId: number) {
+    this.inner.requesterId = requesterId;
+    this.printer.invitePlayerId();
+    this.state = TeamsState.GET_PLAYER_HISTORY;
+
+    return null;
   }
 
   delTeam(requesterId: number) {

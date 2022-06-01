@@ -1,5 +1,5 @@
 import API from '../API'
-import { Team, TeamsResponse } from '../types'
+import { Team, TeamsResponse, HistoryTeamsResponse } from '../types'
 
 interface GetTeamsOptions {
   limit?: number
@@ -17,7 +17,7 @@ export class TeamsService {
 
   static getPlayerTeams(playerId: number): Promise<TeamsResponse> {
     return API.get(`/teams/${playerId}/teams`).then(response => {
-      return { ret: response.data}
+      return { ret: response.data }
     })
   }
 
@@ -27,5 +27,11 @@ export class TeamsService {
 
   static addTeam(team: Team): Promise<boolean> {
     return API.post(`/team`, JSON.stringify(team)).then(() => true).catch(() => false)
+  }
+
+  static getPlayerHistory(playerId: number): Promise<HistoryTeamsResponse> {
+    return API.get(`/teams/${playerId}/history`).then(response => {
+      return { ret: response.data }
+    })
   }
 }

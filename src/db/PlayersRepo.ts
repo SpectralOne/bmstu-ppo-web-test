@@ -4,7 +4,7 @@ import { ConnParams } from "../types/ConnParams";
 import { ValidationResult } from "../types/Validation";
 import { validatePlayer } from "./validatePlayer";
 import { IPlayersRepo } from "./IPlayersRepo";
-import { buildConn, coerceDate, executeQuery, PLAYERS_TABLE, TEAM_PLAYER_TABLE } from "./common";
+import { buildConn, coerceDate, executeQuery, PLAYERS_TABLE, TEAM_PLAYER_TABLE, HISTORY_TABLE } from "./common";
 
 export class PlayersRepo implements IPlayersRepo {
   conn: Pool;
@@ -92,8 +92,14 @@ export class PlayersRepo implements IPlayersRepo {
   async delPlayerTeam(playerId: number, teamId: number) {
     const query = `DELETE FROM ${TEAM_PLAYER_TABLE} WHERE \
       teamid = '${teamId}' AND playerid = '${playerId}';`;
-    const qres = await executeQuery(query, this.conn);
 
-    return qres ? true : false;
+    const currentDate: string = new Date().toISOString();
+    const historyQuery = `INSERT INTO ${HISTORY_TABLE} (playerid, teamid, leaved) VALUES \
+                ('${playerId}', '${teamId}', '${currentDate}');`;
+
+    const qres = await executeQuery(query, this.conn);
+    const historyQres = await executeQuery(historyQuery, this.conn);
+
+    return qres && historyQres ? true : false;
   }
 }

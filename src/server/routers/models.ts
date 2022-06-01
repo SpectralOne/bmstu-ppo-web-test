@@ -27,12 +27,21 @@
  */
 
 /**
+ * @typedef HistoryTeam
+ * @property {integer} id - team id
+ * @property {string} name.required - team name
+ * @property {integer} owner_id.required - team owner id
+ * @property {string} leaved.required - team leaved date
+ */
+
+/**
  * @typedef Player
  * @property {integer} id - player id
- * @property {string} fname.required - player first name
- * @property {string} lname.required - player last name
- * @property {string} cntry.required - player country
- * @property {string} dob.required - player date of birth
+ * @property {integer} owner.required - players owner
+ * @property {string} firstname.required - player first name
+ * @property {string} lastname.required - player last name
+ * @property {string} country.required - player country
+ * @property {string} birthdate.required - player date of birth
  */
 
 /**

@@ -208,6 +208,13 @@ export class App {
         this.state.toTeamsManagement();
         break;
 
+      case RequestOps.GET_PLAYER_HISTORY:
+        this.ensureAuthorized();
+
+        await this.teamsManager.getPlayerHistory(requester);
+        this.state.toTeamsManagement();
+        break;
+
       default:
         this.printer.printError("Unknown query");
         break;

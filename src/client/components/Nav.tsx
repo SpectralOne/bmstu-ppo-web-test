@@ -45,6 +45,7 @@ const Nav: React.FC = () => (
     <NavLinkStyled exact activeClassName="active" to="/teams/add">Add Player To Team</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" to="/teams/delete">Del Player From Team</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" to="/player/teams">Player Teams</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/player/history">Previous Player Teams</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" onClick={() => {
       setToken("")
       window.location.reload()

@@ -1,10 +1,10 @@
 import { Pool } from "pg";
-import { Team } from "../model/Team";
+import { Team, HistoryTeam } from "../model/Team";
 import { ITeamsRepo } from "./ITeamsRepo";
 import { ConnParams } from "../types/ConnParams";
 import { ValidationResult } from "../types/Validation";
 import { validateTeam } from "./validateTeam";
-import { buildConn, executeQuery, TEAMS_TABLE, TEAM_PLAYER_TABLE } from "./common";
+import { buildConn, executeQuery, TEAMS_TABLE, TEAM_PLAYER_TABLE, HISTORY_TABLE, coerceDate } from "./common";
 
 export class TeamsRepo implements ITeamsRepo {
   conn: Pool;
@@ -99,5 +99,25 @@ export class TeamsRepo implements ITeamsRepo {
     return limit
       ? teams.sort((c, n) => c.id > n.id ? -1 : 1).slice(0, limit)
       : teams;
+  }
+
+  async getPlayerHistory(id: number) {
+    const query: string = `SELECT t.id, description, name, leaved FROM ${HISTORY_TABLE} h \
+      JOIN ${TEAMS_TABLE} t ON t.id = h.teamid WHERE playerid = ${id} ORDER BY leaved`;
+
+    const res = await executeQuery(query, this.conn);
+    if (!res?.rows.length) {
+      return null;
+    }
+
+    return res.rows.map((t: HistoryTeam) =>
+      new HistoryTeam(
+        t.id,
+        t.owner,
+        t.description,
+        t.name,
+        [],
+        coerceDate(t.leaved)
+      ));
   }
 }

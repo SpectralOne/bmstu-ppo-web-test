@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 
-import { addNewTeam, deleteTeam, getAllTeams, getPlayerTeams, getTeam } from "../controllers/uiTeamControllers";
+import { addNewTeam, deleteTeam, getAllTeams, getPlayerTeams, getTeam, getPlayerHistory } from "../controllers/uiTeamControllers";
 import { auth } from "../controllers/CommonControllers";
 
 const teamRouter: Router = express.Router();
@@ -12,10 +12,22 @@ const teamRouter: Router = express.Router();
  * @group team - Operations about team
  * @operationId getPlayerTeams
  * @produces application/json
- * @returns {Array.<Player.model>} 200 - An array of players info
+ * @returns {Array.<Teams.model>} 200 - An array of teams info
  * @returns {string} 404 - team not found
  */
 teamRouter.get("/teams/:playerId/teams", getPlayerTeams);
+
+/**
+ * Get all teams player played for
+ * @route GET /teams/{playerId}/history
+ * @param {integer} playerId.path.required - player id
+ * @group team - Operations about team
+ * @operationId getPlayerHistory
+ * @produces application/json
+ * @returns {Array.<HistoryTeam.model>} 200 - An array of teams info
+ * @returns {string} 404 - team not found
+ */
+ teamRouter.get("/teams/:playerId/history", getPlayerHistory);
 
 /**
  * Get team by id
