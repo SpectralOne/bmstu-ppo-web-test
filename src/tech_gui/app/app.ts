@@ -158,42 +158,42 @@ export class App {
       case RequestOps.ADD_PLAYER:
         this.ensureAuthorized();
 
-        this.playersManager.addPlayer(requester);
+        await this.playersManager.addPlayer(requester);
         this.state.toPlayersManagement();
         break;
 
       case RequestOps.REMOVE_PLAYER:
         this.ensureAuthorized();
 
-        this.playersManager.delPlayer(requester);
+        await this.playersManager.delPlayer(requester);
         this.state.toPlayersManagement();
         break;
 
       case RequestOps.ADD_TEAM:
         this.ensureAuthorized();
 
-        this.teamsManager.addTeam(requester);
+        await this.teamsManager.addTeam(requester);
         this.state.toTeamsManagement();
         break;
 
       case RequestOps.REMOVE_TEAM:
         this.ensureAuthorized();
 
-        this.teamsManager.delTeam(requester);
+        await this.teamsManager.delTeam(requester);
         this.state.toTeamsManagement();
         break;
 
       case RequestOps.ADD_TO_TEAM:
         this.ensureAuthorized();
 
-        this.playersManager.addToTeam(requester);
+        await this.playersManager.addToTeam(requester);
         this.state.toPlayersManagement();
         break;
 
       case RequestOps.REMOVE_FROM_TEAM:
         this.ensureAuthorized();
 
-        this.playersManager.delFromTeam(requester);
+        await this.playersManager.delFromTeam(requester);
         this.state.toPlayersManagement();
         break;
 

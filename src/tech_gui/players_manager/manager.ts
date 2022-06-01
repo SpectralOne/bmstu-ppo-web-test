@@ -58,37 +58,45 @@ export class PlayersManager {
     switch (this.state) {
       case PlayersState.WAIT_DEL:
         this.printer.processing();
-        return await this.controller.delPlayer(+rawRequest);
+        await this.controller.delPlayer(+rawRequest);
+
+        return true;
 
       case PlayersState.WAIT_FNAME:
-        return this.processFname(rawRequest);
+        return await this.processFname(rawRequest);
 
       case PlayersState.WAIT_LNAME:
-        return this.processLname(rawRequest);
+        return await this.processLname(rawRequest);
 
       case PlayersState.WAIT_CNTRY:
-        return this.processCntry(rawRequest);
+        return await this.processCntry(rawRequest);
 
       case PlayersState.WAIT_DOB:
-        return this.processDob(rawRequest);
+        return await this.processDob(rawRequest);
 
       case PlayersState.WAIT_ADD:
         this.printer.processing();
-        return await this.controller.addPlayer(this.inner.buildPlayer());
+        await this.controller.addPlayer(this.inner.buildPlayer());
+
+        return true;
 
       case PlayersState.WAIT_PLAYER_TO_ADD:
-        return this.processAddToTeam(rawRequest);
+        return await this.processAddToTeam(rawRequest);
 
       case PlayersState.WAIT_PLAYER_TO_DEL:
-        return this.processDelFromTeam(rawRequest);
+        return await this.processDelFromTeam(rawRequest);
 
       case PlayersState.WAIT_ADD_TO_TEAM:
         this.printer.processing();
-        return await this.controller.addPlayerTeam(+rawRequest, this.inner.teamid);
+        await this.controller.addPlayerTeam(+rawRequest, this.inner.teamid);
+
+        return true;
 
       case PlayersState.WAIT_DEL_FROM_TEAM:
         this.printer.processing();
-        return await this.controller.delPlayerTeam(+rawRequest, this.inner.teamid);
+        await this.controller.delPlayerTeam(+rawRequest, this.inner.teamid);
+
+        return true;
 
       default:
         return null;
@@ -103,7 +111,7 @@ export class PlayersManager {
     return null;
   }
 
-  addPlayer(requesterId: number) {
+  async addPlayer(requesterId: number) {
     this.inner.requesterId = requesterId;
     this.state = PlayersState.WAIT_FNAME;
     this.printer.inviteFname();
@@ -111,7 +119,7 @@ export class PlayersManager {
     return null;
   }
 
-  processFname(rawRequest: string) {
+  async processFname(rawRequest: string) {
     if (this.state !== PlayersState.WAIT_FNAME) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -123,7 +131,7 @@ export class PlayersManager {
     return null;
   }
 
-  processLname(rawRequest: string) {
+  async processLname(rawRequest: string) {
     if (this.state !== PlayersState.WAIT_LNAME) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -135,7 +143,7 @@ export class PlayersManager {
     return null;
   }
 
-  processCntry(rawRequest: string) {
+  async processCntry(rawRequest: string) {
     if (this.state !== PlayersState.WAIT_CNTRY) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -147,7 +155,7 @@ export class PlayersManager {
     return null;
   }
 
-  processDob(rawRequest: string) {
+  async processDob(rawRequest: string) {
     if (this.state !== PlayersState.WAIT_DOB) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -155,10 +163,10 @@ export class PlayersManager {
     this.inner.dob = rawRequest;
     this.state = PlayersState.WAIT_ADD;
 
-    return null;
+    return true;
   }
 
-  addToTeam(requesterId: number) {
+  async addToTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
     this.state = PlayersState.WAIT_PLAYER_TO_ADD;
     this.printer.inviteTeamId();
@@ -166,7 +174,7 @@ export class PlayersManager {
     return null;
   }
 
-  delFromTeam(requesterId: number) {
+  async delFromTeam(requesterId: number) {
     this.inner.requesterId = requesterId;
     this.state = PlayersState.WAIT_PLAYER_TO_DEL;
     this.printer.inviteTeamId();
@@ -174,7 +182,7 @@ export class PlayersManager {
     return null;
   }
 
-  processAddToTeam(rawRequest: string) {
+  async processAddToTeam(rawRequest: string) {
     if (this.state !== PlayersState.WAIT_PLAYER_TO_ADD) {
       throw new AppError("Wrong state in players manager transition!");
     }
@@ -186,7 +194,7 @@ export class PlayersManager {
     return null;
   }
 
-  processDelFromTeam(rawRequest: string) {
+  async processDelFromTeam(rawRequest: string) {
     if (this.state !== PlayersState.WAIT_PLAYER_TO_DEL) {
       throw new AppError("Wrong state in players manager transition!");
     }

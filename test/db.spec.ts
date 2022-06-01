@@ -7,14 +7,17 @@ import { UsersRepo } from "../src/db/UsersRepo";
 import { TeamsRepo } from "../src/db/TeamsRepo";
 import { PlayersRepo } from "../src/db/PlayersRepo";
 
-const USERNAME = "admin";
-const HOST = "localhost";
-const DATABASE = "test_db";
-const PASSWORD = "admin";
-const PORT = 5432;
+import dotenv from "dotenv"
+dotenv.config()
+
+const USERNAME = process.env.PG_USER;
+const HOST = process.env.PG_HOST;
+const DATABASE = process.env.PG_TEST_DB;
+const PASSWORD = process.env.PG_PASS;
+const PORT = parseInt(process.env.PG_PORT as string);
 
 const prepareTestDB = () => {
-  const script_template = `PGPASSWORD=${PASSWORD} psql -h ${HOST} -U ${USERNAME} -d ${DATABASE} -f ./sql/db_init.sql`;
+  const script_template = `PGPASSWORD=${PASSWORD} psql -h ${HOST} -U ${USERNAME} -d ${DATABASE} -f ./sql/pg_init.sql`;
   exec(script_template);
 }
 

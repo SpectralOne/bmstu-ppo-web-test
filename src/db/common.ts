@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import { createConnection, Connection } from "mysql2";
 import { ConnParams } from "../types/ConnParams";
 
 export const PLAYERS_TABLE = "players";
@@ -23,4 +24,8 @@ export const coerceDate = (date: Date) => {
 
 export const buildConn = (connParams: ConnParams) => {
   return new Pool(connParams);
+}
+
+export const buildMySQLConn = (connParams: ConnParams) => {
+  return createConnection(connParams)
 }

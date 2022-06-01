@@ -24,7 +24,6 @@ export class PlayersService {
   }
 
   static addPlayerTeam(playerTeam: PlayerTeam): Promise<boolean> {
-    console.log(playerTeam)
     const { playerid, teamid } = playerTeam;
     return API.patch(`/players/${teamid}/player`, JSON.stringify({ playerid })).then(() => true).catch(() => false)
   }
