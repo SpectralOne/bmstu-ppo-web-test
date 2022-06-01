@@ -4,7 +4,7 @@ export class BaseError extends Error {
     super(msg);
     this.msg = msg;
   }
-  
+
   exInfo() {
     return this.msg;
   }
@@ -29,6 +29,12 @@ export class NotFoundError extends BaseError {
 }
 
 export class PermissionError extends BaseError {
+  constructor(msg: string) {
+    super(msg);
+  }
+}
+
+export class InvalidArgumentError extends BaseError {
   constructor(msg: string) {
     super(msg);
   }

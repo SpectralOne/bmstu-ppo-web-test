@@ -18,6 +18,6 @@ export class Player {
   }
 
   toString(): string {
-    return `${this.id}: ${this.lastname} ${this.firstname} from ${this.country}, born ${this.birthdate.toString()}\n`;
+    return `${this.id}: ${this.lastname} ${this.firstname} from ${this.country}, born ${this.birthdate.toString()}`;
   }
 }

@@ -1,0 +1,64 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5432:5432
+    volumes:
+      - /root/bmstu/bmstu-ppo-web-test/data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:3000"
+    links:
+      - "db:database"
+    depends_on:
+      - db
+
+  nginx:
+    image: ymuski/nginx-quic
+    ports:
+      - "80:80"
+      - "3000:3000"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/hosts:/etc/hosts
+      - ./build:/public
+      - ./nginx/certs:/etc/nginx/certs
+    links:
+      - "app1:app1"
+      - "pgadmin:pgadmin"
+    depends_on:
+      - app1
+      - pgadmin
+
+  app1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - SPORT=3000
+      - CPORT=80
+    links:
+      - "db:database"
+
+  http3_client:
+    image: ymuski/curl-http3
+    links:
+      - "nginx:nginx"
+    command: ["/bin/bash"]
+    tty: true
