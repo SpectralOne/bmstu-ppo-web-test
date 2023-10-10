@@ -18,7 +18,7 @@ export enum RequestOps {
 export const parseRequest = (rawRequest: any) => {
   const num = +rawRequest;
   return (
-    num === NaN ||
+    //num === NaN ||
     num < RequestOps.EXIT_ALL ||
     num > RequestOps.GET_PLAYER_HISTORY)
 
