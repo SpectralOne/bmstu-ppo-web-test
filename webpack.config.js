@@ -88,6 +88,9 @@ module.exports = {
       }
     }
   },
+  optimization: {
+    minimize: false
+  },
   plugins: [
     // new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({

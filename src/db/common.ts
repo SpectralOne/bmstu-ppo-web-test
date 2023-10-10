@@ -12,6 +12,7 @@ export const executeQuery = async (q: string, conn: Pool) => {
   try {
     return await conn.query(q);
   } catch (err) {
+    console.log("db err: ", err)
     return null;
   }
 }
