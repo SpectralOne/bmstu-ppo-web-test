@@ -12,7 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist/backend",
     "moduleResolution": "node",
-    "sourceMap": true
+    "sourceMap": true,
+    "allowJs": true
   },
   "compileOnSave": true,
   "exclude": [

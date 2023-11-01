@@ -2,7 +2,7 @@ import { Config } from './types'
 import { getToken } from './utils';
 
 const config: Config = {
-  api_url: 'http://localhost:3000/api/v1',
+  api_url: 'https://team-gen.com/api/v1',
   plant_per_page: 10,
   token: getToken(),
   months: [

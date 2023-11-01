@@ -16,7 +16,7 @@ export class PlayersService {
   }
 
   static addPlayer(player: Player): Promise<boolean> {
-    return API.post("/player", JSON.stringify(player)).then(() => true).catch(() => false)
+    return API.post("/players", JSON.stringify(player)).then(() => true).catch(() => false)
   }
 
   static delPlayer(id: number): Promise<boolean> {
@@ -25,11 +25,11 @@ export class PlayersService {
 
   static addPlayerTeam(playerTeam: PlayerTeam): Promise<boolean> {
     const { playerid, teamid } = playerTeam;
-    return API.patch(`/players/${teamid}/player`, JSON.stringify({ playerid })).then(() => true).catch(() => false)
+    return API.patch(`/teams/${teamid}/players/${playerid}`).then(() => true).catch(() => false)
   }
 
   static delPlayerTeam(playerTeam: PlayerTeam): Promise<boolean> {
     const { playerid, teamid } = playerTeam;
-    return API.delete(`/players/${teamid}/player`, { data: { playerid: playerid } }).then(() => true).catch(() => false)
+    return API.delete(`/teams/${teamid}/players/${playerid}`).then(() => true).catch(() => false)
   }
 }

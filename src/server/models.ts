@@ -80,6 +80,30 @@ export class DTOPlayer {
   }
 };
 
+export class DTOPlayerUpdate {
+  id: number;
+  owner: number;
+  firstname: string;
+  lastname: string;
+  country: string;
+  birthdate: Date;
+  teams: number[];
+
+  constructor(obj: any) {
+    this.id = obj.id;
+    this.owner = obj.owner;
+    this.firstname = obj.firstname;
+    this.lastname = obj.lastname;
+    this.country = obj.country;
+    this.birthdate = correctDate(obj.birthdate);
+    this.teams = obj.teams;
+  }
+
+  toPlayer() {
+    return new Player(this.id, this.owner, this.firstname, this.lastname, this.country, this.birthdate, this.teams);
+  }
+};
+
 export class DTOTeam {
   id: number;
   owner: number;

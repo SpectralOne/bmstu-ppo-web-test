@@ -1,5 +1,12 @@
 import { NotFoundError, PermissionError, InvalidArgumentError, dbError, LogicError } from "../logic/error.js";
 
+export const getUserFromRequest = (req: any) => {
+    const user = req.user;
+    if (!user)
+      throw new PermissionError("Unauthorized");
+    return user;
+}
+
 export const safetyWrapper = (res: any, f: any) => {
     f().catch((e: any) => {
         if (e instanceof NotFoundError)

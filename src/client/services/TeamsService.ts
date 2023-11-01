@@ -16,7 +16,7 @@ export class TeamsService {
   }
 
   static getPlayerTeams(playerId: number): Promise<TeamsResponse> {
-    return API.get(`/teams/${playerId}/teams`).then(response => {
+    return API.get(`/player/${playerId}/teams`).then(response => {
       return { ret: response.data }
     })
   }
@@ -30,7 +30,7 @@ export class TeamsService {
   }
 
   static getPlayerHistory(playerId: number): Promise<HistoryTeamsResponse> {
-    return API.get(`/teams/${playerId}/history`).then(response => {
+    return API.get(`/player/${playerId}/history`).then(response => {
       return { ret: response.data }
     })
   }

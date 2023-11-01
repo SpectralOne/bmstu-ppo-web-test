@@ -1,0 +1,638 @@
+openapi: 3.0.1
+info:
+  title: Swagger
+  description: Teams constructor application
+  version: 1.0.0
+servers:
+- url: https://team-gen.com/api/v1
+- url: http://team-gen.com/api/v1
+tags:
+- name: player
+  description: Operations about players
+- name: team
+  description: Operations about team
+- name: user
+  description: Operations about user
+paths:
+  /player/{playerId}/teams:
+    get:
+      tags:
+      - player
+      description: Get all teams for player
+      operationId: getPlayerTeams
+      parameters:
+      - name: playerId
+        in: path
+        description: player id
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: An array of teams info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        404:
+          description: team not found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+  /player/{playerId}/history:
+    get:
+      tags:
+      - player
+      description: Get all teams player played for
+      operationId: getPlayerHistory
+      parameters:
+      - name: playerId
+        in: path
+        description: player id
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: An array of teams info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistoryTeam'
+        404:
+          description: team not found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+  /players/{playerId}:
+    get:
+      tags:
+      - player
+      description: Get player by id
+      operationId: getPlayer
+      parameters:
+      - name: playerId
+        in: path
+        description: player id to get
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: player with requested id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        404:
+          description: player was not found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+    delete:
+      tags:
+      - player
+      description: Delete player with specified id
+      operationId: deletePlayer
+      parameters:
+      - name: playerId
+        in: path
+        description: player id to delete
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: ok
+          content: {}
+        403:
+          description: no enough rights
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+  /players:
+    post:
+      tags:
+      - player
+      description: Create new player in database
+      operationId: createPlayer
+      requestBody:
+        description: player to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Player'
+        required: true
+      responses:
+        200:
+          description: ok
+          content: {}
+        403:
+          description: no enough rights
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: player
+    get:
+      tags:
+      - player
+      description: Get all players collection
+      operationId: getPlayers
+      responses:
+        200:
+          description: An array of players info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+        500:
+          description: Internal Server Error
+          content: {}
+  /teams/{teamId}:
+    get:
+      tags:
+      - team
+      description: Get team by id
+      operationId: getTeam
+      parameters:
+      - name: teamId
+        in: path
+        description: team id to get
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: team with requested id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        404:
+          description: team wasn't found
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+    delete:
+      tags:
+      - team
+      description: Delete team
+      operationId: deleteTeam
+      parameters:
+      - name: teamId
+        in: path
+        description: team id to delete
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Ok
+          content: {}
+        403:
+          description: No enough rights
+          content: {}
+        404:
+          description: Team not found
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+  /teams:
+    post:
+      tags:
+      - team
+      description: Create new team
+      operationId: createTeam
+      requestBody:
+        description: team to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content: {}
+        403:
+          description: No enough rights
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: team
+    get:
+      tags:
+      - team
+      description: Get all teams
+      operationId: getTeams
+      responses:
+        200:
+          description: An array of players info
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        500:
+          description: Internal Server Error
+          content: {}
+  /teams/{teamId}/players/{playerId}:
+    delete:
+      tags:
+      - team
+      description: Delete player from team
+      operationId: deletePlayerTeam
+      parameters:
+      - name: teamId
+        in: path
+        description: team id to delete
+        required: true
+        schema:
+          type: integer
+      - name: playerId
+        in: path
+        description: player id to delete
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Team with requested id
+          content: {}
+        403:
+          description: No enough rights
+          content: {}
+        404:
+          description: Team not found
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: playerId
+    patch:
+      tags:
+      - team
+      description: Add player (playerId) to team (teamId)
+      operationId: addPlayerTeam
+      parameters:
+      - name: teamId
+        in: path
+        description: team id
+        required: true
+        schema:
+          type: integer
+      - name: playerId
+        in: path
+        description: player id
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Team with requested id
+          content: {}
+        403:
+          description: No enough rights
+          content: {}
+        404:
+          description: Team not found
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: playerId
+  /user/login:
+    post:
+      tags:
+      - user
+      description: Login into system
+      operationId: loginUser
+      requestBody:
+        description: user login info (login + password)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginInfo'
+        required: true
+      responses:
+        200:
+          description: ok (token)
+          content: {}
+        404:
+          description: user not found
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      x-codegen-request-body-name: loginInfo
+  /user/logout:
+    post:
+      tags:
+      - user
+      description: Logout from system
+      operationId: logoutUser
+      responses:
+        200:
+          description: ok
+          content: {}
+        404:
+          description: user not found
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+  /user/{username}:
+    get:
+      tags:
+      - user
+      description: Get user by username
+      operationId: getUserByUsername
+      parameters:
+      - name: username
+        in: path
+        description: username of user to get
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: user not found
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+  /user:
+    put:
+      tags:
+      - user
+      description: Update user (can be perfomed only by user himself)
+      operationId: updateUser
+      requestBody:
+        description: user info to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWithPass'
+        required: true
+      responses:
+        200:
+          description: ok
+          content: {}
+        403:
+          description: no enough rights
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: user
+    post:
+      tags:
+      - user
+      description: Create new user
+      operationId: createUser
+      requestBody:
+        description: user info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWithPass'
+        required: true
+      responses:
+        200:
+          description: ok (token)
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      x-codegen-request-body-name: user
+  /user/password:
+    put:
+      tags:
+      - user
+      description: Update user password
+      operationId: updatePassword
+      requestBody:
+        description: new password
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: ok
+          content: {}
+        403:
+          description: Unauthorized
+          content: {}
+        405:
+          description: invalid input
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+      security:
+      - JWT: []
+      x-codegen-request-body-name: password
+components:
+  schemas:
+    UserLoginInfo:
+      required:
+      - login
+      - password
+      type: object
+      properties:
+        login:
+          type: string
+          description: user login
+        password:
+          type: string
+          description: user password
+    User:
+      required:
+      - login
+      - privelegelevel
+      type: object
+      properties:
+        id:
+          type: integer
+          description: user id
+        login:
+          type: string
+          description: user login
+        plevel:
+          type: integer
+          description: user privilege level
+    UserWithPass:
+      required:
+      - login
+      - password
+      - privelegelevel
+      type: object
+      properties:
+        id:
+          type: integer
+          description: user id
+        login:
+          type: string
+          description: user login
+        privelegelevel:
+          type: integer
+          description: user privelege level
+        password:
+          type: string
+          description: user password
+    Team:
+      required:
+      - name
+      - owner
+      - description
+      type: object
+      properties:
+        id:
+          type: integer
+          description: team id
+        name:
+          type: string
+          description: team name
+        owner:
+          type: integer
+          description: team owner id
+        description:
+          type: string
+          description: description
+    HistoryTeam:
+      required:
+      - leaved
+      - name
+      - owner
+      type: object
+      properties:
+        id:
+          type: integer
+          description: team id
+        name:
+          type: string
+          description: team name
+        owner:
+          type: integer
+          description: team owner id
+        leaved:
+          type: string
+          description: team leaved date
+    Player:
+      required:
+      - birthdate
+      - country
+      - firstname
+      - lastname
+      - owner
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: player id
+        owner:
+          type: integer
+          description: players owner
+        firstname:
+          type: string
+          description: player first name
+        lastname:
+          type: string
+          description: player last name
+        country:
+          type: string
+          description: player country
+        birthdate:
+          type: string
+          description: player date of birth
+    PlayerUpdInfo:
+      type: object
+      properties:
+        fname:
+          type: string
+          description: player first name
+        lname:
+          type: string
+          description: player last name
+        cntry:
+          type: string
+          description: player country
+  securitySchemes:
+    JWT:
+      type: apiKey
+      description: ""
+      name: Authorization
+      in: header

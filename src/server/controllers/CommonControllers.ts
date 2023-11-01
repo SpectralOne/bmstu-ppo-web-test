@@ -29,25 +29,17 @@ export interface UserRequest extends Request {
   user: string
 }
 
-export const auth = (): ((req: UserRequest, res: Response, next: NextFunction) => void) => {
-  return (req: UserRequest, res: Response, next: NextFunction) => {
-    safetyWrapper(res, async () => {
-      try {
-        const token = await authController.extractToken(req);
-        await authController.verify(token);
-        const user = await authController.extractInfoFromToken(token);
-        if (!user)
-          throw new PermissionError("Can't get user from token");
-        req.user = user;
-        next();
-      } catch (e) {
-        await authController.resetHeader(res);
-        throw e;
-      }
-    });
-  }
+export const auth = (req: any, res: Response, next: NextFunction) => {
+  const token = authController.extractToken(req);
+  console.log(token);
+  authController.verify(token);
+  const user = authController.extractInfoFromToken(token);
+  if (!user)
+    throw new PermissionError("Can't get user from token");
+  req.user = user;
+  next();
 }
 
 export const sendOld = (req: Request, res: Response, _next: NextFunction) => {
-  res.sendFile(path.resolve() + "/src/web/static/old.html");
+  res.send("<p>old</p>");
 }
