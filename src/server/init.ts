@@ -17,12 +17,12 @@ dotenv.config();
 
 const connParams: ConnParams = {
   user: process.env.PG_USER,
-  host: process.env.PG_HOST,
+  host: "db", //process.env.PG_HOST,
   database: process.env.PG_DB,
   password: process.env.PG_PASS,
   port: parseInt(process.env.PG_PORT as string),
 };
-
+console.log(connParams);
 const connMysql: ConnParams = {
   user: process.env.MYSQL_USER,
   host: process.env.MYSQL_HOST,

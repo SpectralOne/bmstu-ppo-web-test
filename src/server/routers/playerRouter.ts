@@ -5,46 +5,42 @@ import {
   deletePlayer,
   getAllPlayers,
   postPlayer,
-  addPlayerTeam,
-  deletePlayerTeam
 } from "../controllers/uiPlayerControllers";
+
+import {
+  getPlayerTeams,
+  getPlayerHistory
+} from "../controllers/uiTeamControllers";
+
 import { auth } from "../controllers/CommonControllers";
 
 const playerRouter: Router = express.Router();
 
 /**
- * Add player (playerId) to team (teamId)
- * @route PATCH /players/{teamId}/player
- * @param {integer} teamId.path.required - team id
- * @param {integer} playerId.body.required - player id to add
- * @group player - Operations about team
- * @operationId addPlayerTeam
- * @produces text/plain
- * @consumes text/plain
- * @returns {string} 200 - Team with requested id
- * @returns {string} 403 - No enough rights
- * @returns {string} 404 - Team not found
- * @returns {string} 405 - Invalid input
- * @security JWT
+ * Get all teams for player
+ * @route GET /player/{playerId}/teams
+ * @param {integer} playerId.path.required - player id
+ * @group player - Operations about player
+ * @operationId getPlayerTeams
+ * @produces application/json
+ * @returns {Array.<Teams>} 200 - An array of teams info
+ * @returns {string} 404 - team not found
+ * @returns {string} 500 - Internal Server Error
  */
-playerRouter.patch("/players/:teamId/player", addPlayerTeam);
+playerRouter.get("/player/:playerId/teams", getPlayerTeams);
 
 /**
- * Delete player from team
- * @route DELETE /players/{teamId}/player
- * @param {integer} teamId.path.required - team id to delete
- * @param {integer} playerId.body.required - player id to add
- * @group player - Operations about team
- * @operationId deletePlayerTeam
- * @produces text/plain
- * @consumes text/plain
- * @returns {string} 200 - Team with requested id
- * @returns {string} 403 - No enough rights
- * @returns {string} 404 - Team not found
- * @returns {string} 405 - Invalid input
- * @security JWT
+ * Get all teams player played for
+ * @route GET /player/{playerId}/history
+ * @param {integer} playerId.path.required - player id
+ * @group player - Operations about player
+ * @operationId getPlayerHistory
+ * @produces application/json
+ * @returns {Array.<HistoryTeam>} 200 - An array of teams info
+ * @returns {string} 404 - team not found
+ * @returns {string} 500 - Internal Server Error
  */
-playerRouter.delete("/players/:teamId/player", deletePlayerTeam);
+ playerRouter.get("/player/:playerId/history", getPlayerHistory);
 
 /**
  * Get player by id
@@ -54,24 +50,25 @@ playerRouter.delete("/players/:teamId/player", deletePlayerTeam);
  * @operationId getPlayer
  * @produces application/json
  * @consumes application/json
- * @returns {Player.model} 200 - player with requested id
+ * @returns {Player} 200 - player with requested id
  * @returns {string} 404 - player was not found
+ * @returns {string} 500 - Internal Server Error
  */
 playerRouter.get("/players/:playerId", getPlayer);
 
-/**
- * Update player with specified id
- * @route PUT /players/{playerId}
- * @param {integer} playerId.path.required - player id to get
- * @group player - Operations about player
- * @param {PlayerUpdInfo.model} player.body.required - player info to update
- * @operationId putPlayer
- * @produces text/plain
- * @consumes application/json
- * @returns {string} 200 - ok
- * @returns {string} 404 - not found
- * @security JWT
- */
+// /**
+//  * Update player with specified id
+//  * @route PUT /players/{playerId}
+//  * @param {integer} playerId.path.required - player id to get
+//  * @group player - Operations about player
+//  * @param {PlayerUpdInfo.model} player.body.required - player info to update
+//  * @operationId putPlayer
+//  * @produces text/plain
+//  * @consumes application/json
+//  * @returns {string} 200 - ok
+//  * @returns {string} 404 - not found
+//  * @security JWT
+//  */
 // playerRouter.put("/players/:playerId", auth, modifyPlayer);
 
 /**
@@ -84,9 +81,10 @@ playerRouter.get("/players/:playerId", getPlayer);
  * @returns {string} 200 - ok
  * @returns {string} 403 - no enough rights
  * @returns {string} 405 - invalid input
+ * @returns {string} 500 - Internal Server Error
  * @security JWT
  */
-playerRouter.delete("/players/:playerId", deletePlayer);
+playerRouter.delete("/players/:playerId", auth, deletePlayer);
 
 /**
  * Get all players collection
@@ -94,23 +92,25 @@ playerRouter.delete("/players/:playerId", deletePlayer);
  * @group player - Operations about player
  * @operationId getPlayers
  * @produces application/json
- * @returns {Array.<Player.model>} 200 - An array of players info
+ * @returns {Array.<Player>} 200 - An array of players info
+ * @returns {string} 500 - Internal Server Error
  */
 playerRouter.get("/players", getAllPlayers);
 
 /**
  * Create new player in database
- * @route POST /player
+ * @route POST /players
  * @group player - Operations about player
- * @param {Player.model} player.body.required - player to add
+ * @param {Player} players.body.required - player to add
  * @operationId createPlayer
  * @produces text/plain
  * @consumes application/json
  * @returns {string} 200 - ok
  * @returns {string} 403 - no enough rights
  * @returns {string} 405 - invalid input
+ * @returns {string} 500 - Internal Server Error
  * @security JWT
  */
-playerRouter.post("/player", postPlayer);
+playerRouter.post("/players", auth, postPlayer);
 
 export default playerRouter;

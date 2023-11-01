@@ -25,12 +25,12 @@ export class AuthController {
 
   generateToken(user: User) {
     user.password = '';
-    return "Bearer " + jwt.sign({
+    return 'Bearer ' + jwt.sign({
       data: JSON.stringify(user)
     }, SECRET, { expiresIn: '1h' });
   }
 
-  async verify(token: string) {
+  verify(token: string) {
     try {
       jwt.verify(token, SECRET);
     } catch (e) {
@@ -38,7 +38,8 @@ export class AuthController {
     }
   }
 
-  async extractToken(req: Request) {
+  extractToken(req: Request) {
+    console.log(req.headers.authorization?.split(' ')[0]);
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
       return req.headers.authorization.split(' ')[1];
     else if (req.cookies && req.cookies.jwtToken)
@@ -48,13 +49,13 @@ export class AuthController {
     throw new PermissionError("Credentials weren't provided");
   }
 
-  async extractInfoFromToken(token: string) {
+  extractInfoFromToken(token: string) {
     const decoded: any = jwt.decode(token);
     return JSON.parse(decoded.data);
   }
 
   // ?
-  async resetHeader(res: Response) {
+  resetHeader(res: Response) {
     res.clearCookie("jwtToken");
   }
 
