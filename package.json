@@ -7,8 +7,10 @@
     "tech-app": "tsc -p tsconfig.backend.json && node dist/backend/tech_gui/main.js",
     "build": "webpack --mode production",
     "start": "npm run build && npm run server",
+    "start-mirror": "npm run build && npm run mirror",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "tsc -p tsconfig.backend.json && node dist/backend/server/main.js",
+    "mirror": "tsc -p tsconfig.mirror.json && node mirror/backend/server/main.js",
     "dev": "concurrently \"nodemon\" \"npm run client\"",
     "server-dev": "nodemon"
   },

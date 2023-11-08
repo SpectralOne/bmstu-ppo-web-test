@@ -14,8 +14,8 @@ export const login = (req: Request, res: Response, _next: NextFunction) => {
 
 export const logout = (_req: Request, res: Response, _next: NextFunction) => {
   safetyWrapper(res, async () => {
-    await authController.logout();
-    await authController.resetHeader(res);
+    // await authController.logout();
+    authController.resetHeader(res);
     res.status(200).send("ok");
   });
 };

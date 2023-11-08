@@ -2,7 +2,8 @@ export interface Config {
   api_url: string
   token?: string
   plant_per_page: number
-  months: string[]
+  months: string[],
+  version: string
 }
 
 export interface PlayersResponse {

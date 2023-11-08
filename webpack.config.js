@@ -3,8 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
-const outputDirectory = 'dist';
+const outputDirectory = process.env.BUILD || 'dist';
 
 module.exports = {
   entry: ['babel-polyfill', './src/client/index.tsx'],
@@ -93,6 +94,11 @@ module.exports = {
   },
   plugins: [
     // new CleanWebpackPlugin([outputDirectory]),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_VERSION': JSON.stringify(process.env.REACT_APP_VERSION),
+      'process.env.REACT_APP_API': JSON.stringify(process.env.REACT_APP_API)
+    }),
+    new webpack.EnvironmentPlugin(['process.env.REACT_APP_VERSION', 'process.env.REACT_APP_API']),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       favicon: './public/favicon.ico',

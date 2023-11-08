@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import Loader from '../components/Loader'
 import LoginForm from '../components/LoginForm'
+import config from '../config'
 
 const SavedContainer = styled.div`
   text-align: center;
@@ -30,7 +31,7 @@ const LoginPage: React.FC<Props> = (props: Props) => {
 
   return (
     <SmallPage>
-      <SectionTitle>Login</SectionTitle>
+      <SectionTitle>{`Login (${config.version})`}</SectionTitle>
       <HorizontalLine />
       {saving ? (
             <Flex alignItems="center" justifyContent="center">

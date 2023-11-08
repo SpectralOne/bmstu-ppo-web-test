@@ -49,8 +49,8 @@ const Nav: React.FC = () => (
     <NavLinkStyled exact activeClassName="active" onClick={() => {
       setToken("")
       window.location.reload()
-    }} 
-      to="/logout">Logout</NavLinkStyled>
+    }}
+      to="/">Logout</NavLinkStyled>
   </NavContainer>
 )
 
