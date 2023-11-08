@@ -11,13 +11,13 @@ import { AuthController } from "../logic/AuthController";
 import { UsersController } from "../logic/UsersController";
 import { dbContextEnum } from "../types/Context";
 
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
 
 const connParams: ConnParams = {
   user: process.env.PG_USER,
-  host: "db", //process.env.PG_HOST,
+  host: process.env.PG_HOST,
   database: process.env.PG_DB,
   password: process.env.PG_PASS,
   port: parseInt(process.env.PG_PORT as string),

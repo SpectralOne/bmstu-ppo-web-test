@@ -1,0 +1,14 @@
+FROM node:18
+
+WORKDIR /mirror
+COPY . /mirror
+
+# ARG REACT_APP_API
+# ENV REACT_APP_API https://team-gen.com/mirror1/api/v1
+
+# ARG REACT_APP_VERSION
+# ENV REACT_APP_VERSION Mirror
+
+RUN yarn install --production=true
+
+ENTRYPOINT ["yarn", "start-mirror"]

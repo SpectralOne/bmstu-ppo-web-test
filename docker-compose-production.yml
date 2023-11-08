@@ -1,7 +1,8 @@
 version: '3.1'
 
 services:
-  db:
+  master:
+    container_name: master-db
     image: postgres
     environment:
       POSTGRES_USER: admin
@@ -10,6 +11,21 @@ services:
       - 5432:5432
     volumes:
       - /root/bmstu/bmstu-ppo-web-test/data:/var/lib/postgresql/data
+
+  slave:
+    container_name: slave-db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: slave
+    ports:
+      - 5431:5432
+    volumes:
+      - /root/bmstu/bmstu-ppo-web-test/slave:/var/lib/postgresql/data
+    links:
+      - "master:database"
+    depends_on:
+      - master
 
   pgadmin:
     container_name: pgadmin4
@@ -21,9 +37,9 @@ services:
     ports:
       - "5050:80"
     links:
-      - "db:database"
+      - "master:database"
     depends_on:
-      - db
+      - master
 
   nginx:
     image: ymuski/nginx-quic
@@ -37,6 +53,7 @@ services:
       - ./nginx/hosts:/etc/hosts
       - ./dist:/public
       - ./nginx/certs:/etc/nginx/certs
+      # - ./mirror:/mirror
     links:
       - "app1:app1"
       - "pgadmin:pgadmin"
@@ -52,14 +69,83 @@ services:
       - ./:/app
     working_dir: /app
     environment:
+      - PG_USER=admin
+      - PG_HOST=master
+      - PG_DB=admin
+      - PG_PASS=admin
+      - PG_PORT=5432
       - SPORT=3000
       - CPORT=81
     links:
-      - "db:database"
+      - "master:database"
+      - "slave:database"
 
-  # http3_client:
-  #   image: ymuski/curl-http3
+  app2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - PG_USER=admin
+      - PG_HOST=slave
+      - PG_DB=admin
+      - PG_PASS=admin
+      - PG_PORT=5432
+      - SPORT=3000
+      - CPORT=81
+    links:
+      - "master:database"
+      - "slave:database"
+
+  app3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    working_dir: /app
+    environment:
+      - PG_USER=admin
+      - PG_HOST=slave
+      - PG_DB=admin
+      - PG_PASS=admin
+      - PG_PORT=5432
+      - SPORT=3000
+      - CPORT=81
+    links:
+      - "master:database"
+      - "slave:database"
+
+  # mirror:
+  #   build:
+  #     context: .
+  #     # args:
+  #       # - REACT_APP_API=https://team-gen.com/mirror1/api/v1
+  #       # - REACT_APP_VERSION=Mirror
+  #     dockerfile: Dockerfile_mirror
+  #   volumes:
+  #     - ./:/mirror
+  #   working_dir: /mirror
+  #   environment:
+  #     - REACT_APP_API=https://team-gen.com/mirror1/api/v1
+  #     - BUILD=mirror
+  #     - REACT_APP_VERSION=Mirror
+  #     - PG_USER=admin
+  #     - PG_HOST=slave
+  #     - PG_DB=admin
+  #     - PG_PASS=admin
+  #     - PG_PORT=5432
+  #     - SPORT=3002
+  #     - CPORT=81
   #   links:
-  #     - "nginx:nginx"
-  #   command: ["/bin/bash"]
-  #   tty: true
+  #     - "slave:database"
+
+  # curl -k -X GET https://nginx/api/v1/players
+  http3_client:
+    image: ymuski/curl-http3
+    links:
+      - "nginx:nginx"
+    command: ["/bin/bash"]
+    tty: true
