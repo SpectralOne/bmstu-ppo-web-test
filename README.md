@@ -1,3 +1,10 @@
+## WEB
+
+Figma: https://www.figma.com/file/KSZx5KM6ydlPYLZ5rDK5SR/Team-Gen?type=design&node-id=0%3A1&mode=design&t=QXbadEQGAAGheRt2-1
+
+
+Moodboard: https://pinterest.com/ogurec3228/passion/
+
 ## ППО -> WEB
 
 a. Цель работы, решаемая проблема/предоставляемая возможность

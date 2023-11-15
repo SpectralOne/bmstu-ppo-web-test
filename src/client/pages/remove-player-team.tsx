@@ -6,10 +6,11 @@ import {
   Button,
   Flex,
 } from '../theme'
-import { PlayersService } from '../services'
+import { PlayersService, TeamsService } from '../services'
 import Success from '../components/Success'
 import styled from '@emotion/styled'
 import Loader from '../components/Loader'
+import { Team, Player } from '../types'
 import PlayerTeamForm from '../components/PlayerTeamForm'
 
 const SavedContainer = styled.div`
@@ -19,6 +20,24 @@ const SavedContainer = styled.div`
 const RemovePlayerTeamPage: React.FC = () => {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [teams, setTeams] = useState<Team[]>([])
+  const [players, setPlayers] = useState<Player[]>([])
+  const [playersLoaded, setPlayersLoaded] = useState(false)
+  const [teamsLoaded, setTeamsLoaded] = useState(false)
+
+  if (!teamsLoaded) {
+    TeamsService.getAllTeams().then(teamsRes => {
+      setTeams(teamsRes.ret)
+      setTeamsLoaded(true)
+    })
+  }
+
+  if (!playersLoaded) {
+    PlayersService.getAllPlayers().then(playersRes => {
+      setPlayers(playersRes.ret)
+      setPlayersLoaded(true)
+    })
+  }
   return (
     <SmallPage>
       <SectionTitle>Del Player From Team</SectionTitle>
@@ -36,6 +55,8 @@ const RemovePlayerTeamPage: React.FC = () => {
             </Flex>
           ) : (
             <PlayerTeamForm
+              players={players}
+              teams={teams}
               del={true}
               onSave={async pteam => {
                 setSaving(true)

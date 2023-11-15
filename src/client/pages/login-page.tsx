@@ -26,6 +26,7 @@ interface Props {
 
 const LoginPage: React.FC<Props> = (props: Props) => {
   const [saving, setSaving] = useState(false)
+  const [loginError, setLoginError] = useState(false)
   const [error, setError] = useState(false)
   const { setToken, setSuccess } = props
 
@@ -34,22 +35,32 @@ const LoginPage: React.FC<Props> = (props: Props) => {
       <SectionTitle>{`Login (${config.version})`}</SectionTitle>
       <HorizontalLine />
       {saving ? (
-            <Flex alignItems="center" justifyContent="center">
-              <Loader />
-            </Flex>
-          ) : (
-            <LoginForm
-              onSuccess={async user => {
-                setSaving(true)
-                AuthService.login(user).then((response: any) => {
-                  setToken(response.data)
-                  setError(false)
-                  setSuccess(true)
-                  setSaving(false)
-                }).catch(() => setError(true))
-              }}
-            />
-          )}
+        <Flex alignItems="center" justifyContent="center">
+          <Loader />
+        </Flex>
+      ) : (
+        <div>
+          <LoginForm
+            onSuccess={async user => {
+              setSaving(true)
+              setLoginError(false)
+              AuthService.login(user).then((response: any) => {
+                setToken(response.data)
+                setError(false)
+                setSuccess(true)
+                setSaving(false)
+                window.location.replace("/dashboard")
+              }).catch(() => {
+                setError(true)
+                setSuccess(false)
+                setSaving(false)
+                setLoginError(true)
+              })
+            }}
+          />
+          {loginError && <ErrorMsg>Password is required.</ErrorMsg>}
+        </div>)
+      }
     </SmallPage>
   )
 }

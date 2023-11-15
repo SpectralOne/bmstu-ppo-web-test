@@ -6,6 +6,7 @@ import config from '../config'
 interface DatePickerProps {
   onChange: (date: Date) => void
   monthPicker?: boolean
+  date?: string
 }
 
 const DatePickerWrapper = styled.div`
@@ -50,14 +51,16 @@ function days(): JSX.Element[] {
   return elems
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ onChange, monthPicker }) => {
-  const [year, setYear] = useState<number>(currentDate.getFullYear())
-  const [month, setMonth] = useState<number>(currentDate.getMonth())
-  const [day, setDay] = useState<number>(currentDate.getDate())
+const DatePicker: React.FC<DatePickerProps> = ({ onChange, monthPicker, date }) => {
+  var dateToDisplay: Date = currentDate;
+  dateToDisplay = new Date(date as string) || currentDate;
+  const [year, setYear] = useState<number>(dateToDisplay.getFullYear())
+  const [month, setMonth] = useState<number>(dateToDisplay.getMonth())
+  const [day, setDay] = useState<number>(dateToDisplay.getDate())
 
   useEffect(() => {
     onChange(new Date(year, month, day))
-  }, [])
+  }, [year, month, day])
 
   return (
     <DatePickerWrapper>

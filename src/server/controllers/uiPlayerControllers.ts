@@ -7,7 +7,7 @@ import { safetyWrapper } from "../common";
 export const getPlayer = (req: Request, res: Response, _next: NextFunction) => {
   safetyWrapper(res, async () => {
     const id = req.params && req.params.playerId && parseInt(req.params.playerId);
-    if (!id)
+    if (id !== 0 && !id)
       throw new InvalidArgumentError("failed to parse id");
     const player = await playersController.getPlayer(id);
     res.status(200).json(player);
@@ -35,12 +35,12 @@ export const deletePlayer = (req: any, res: Response, _next: NextFunction) => {
       throw new PermissionError("Unauthorized");
 
     const playerId = req?.params?.playerId && parseInt(req.params.playerId);
-    if (!playerId)
+    if (playerId !== 0 && !playerId)
       throw new InvalidArgumentError("Can't parse player id");
 
     const player = await playersController.getPlayer(playerId);
     const playerOwner = player?.owner;
-    if (playerOwner !== user.id || user.privelegelevel !== 1)
+    if (playerOwner !== user.id && user.privelegelevel !== 1)
       throw new PermissionError("This player does not belongs to you.");
 
     await playersController.delPlayer(playerId);
@@ -76,16 +76,16 @@ export const addPlayerTeam = (req: any, res: Response, _next: NextFunction) => {
       throw new PermissionError("Unauthorized");
 
     const playerId = req?.params?.playerId && parseInt(req.params.playerId);
-    if (!playerId)
+    if (playerId !== 0 && !playerId)
       throw new InvalidArgumentError("Can't parse player ID");
 
     const teamId = req?.params?.teamId && parseInt(req.params.teamId);
-    if (!teamId)
+    if (teamId !== 0 && !teamId)
       throw new InvalidArgumentError("Can't parse team ID");
 
     const team = await teamsController.getTeam(teamId)
     const teamOwner = team?.owner;
-    if (teamOwner !== user.id || user.privelegelevel !== 1)
+    if (teamOwner !== user.id && user.privelegelevel !== 1)
       throw new PermissionError("This team does not belongs to you.");
 
     // exception, if no such team or player
@@ -101,16 +101,16 @@ export const deletePlayerTeam = (req: any, res: Response, _next: NextFunction) =
       throw new PermissionError("Unauthorized");
 
     const playerId = req?.params?.playerId && parseInt(req.params.playerId);
-    if (!playerId)
+    if (playerId !== 0 && !playerId)
       throw new InvalidArgumentError("Can't parse player ID in params");
 
     const teamId = req?.params?.teamId && parseInt(req.params.teamId);
-    if (!teamId)
+    if (playerId !== 0 && !teamId)
       throw new InvalidArgumentError("Can't parse team ID");
 
     const team = await teamsController.getTeam(teamId)
     const teamOwner = team?.owner;
-    if (teamOwner !== user.id || user.privelegelevel !== 1)
+    if (teamOwner !== user.id && user.privelegelevel !== 1)
       throw new PermissionError("This team does not belongs to you.");
 
     // exception, if no such team or player

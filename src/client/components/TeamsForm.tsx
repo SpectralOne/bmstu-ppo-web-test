@@ -8,13 +8,17 @@ import {
   ButtonPrimary,
   ErrorMsg,
 } from '../theme'
+import { getOwner, getState, setState, newTeamStateKey } from '../utils'
 
 interface Props {
   onSave: (team: Team) => void
 }
 
 const TeamsForm: React.FC<Props> = (props: Props) => {
-  const [team, setTeam] = useState<Team>({ name: '', description: '', id: 0, owner: 1, players: [] })
+  const owner = getOwner()
+  const cleanState = { name: '', description: '', id: 0, owner: owner, players: [] }
+  const lastCapturedState = getState(newTeamStateKey) || cleanState
+  const [team, setTeam] = useState<Team>(lastCapturedState)
   const [nameError, setNameError] = useState(false)
   const [descrError, setDescrError] = useState(false)
   const [submit, setSubmit] = useState(false)
@@ -32,6 +36,9 @@ const TeamsForm: React.FC<Props> = (props: Props) => {
   const handleInput = (e: any) => {
     e.persist()
     const { id, value } = e.target;
+    const nextState = { ...team, [id]: value }
+    setState(newTeamStateKey, nextState)
+
     setTeam(prev => ({ ...prev, [id]: value }))
   }
 
@@ -40,7 +47,7 @@ const TeamsForm: React.FC<Props> = (props: Props) => {
     if (submit && !verror) {
       onSave(team)
       setSubmit(false)
-      setTeam({ name: '', description: '', id: 0, owner: 1, players: [] })
+      setState(newTeamStateKey, cleanState)
     }
   }, [submit, nameError, descrError])
 
@@ -54,17 +61,11 @@ const TeamsForm: React.FC<Props> = (props: Props) => {
   return (
     <div>
       <FormGroup>
-        <Label>ID:</Label>
-        <MutedSpan>
-          <small>The ID will be auto generated after creating the team</small>
-        </MutedSpan>
-      </FormGroup>
-
-      <FormGroup>
         <Label htmlFor="name">Name:</Label>
         <TextInput
           id="name"
           type="text"
+          value={lastCapturedState.name}
           placeholder="Enter Team Name..."
           onKeyUp={e => validate(e.currentTarget.value, setNameError)}
           onChange={handleInput}
@@ -78,6 +79,7 @@ const TeamsForm: React.FC<Props> = (props: Props) => {
         <TextInput
           id="description"
           type="text"
+          value={lastCapturedState.description}
           placeholder="Enter Team Description..."
           onKeyUp={e => validate(e.currentTarget.value, setDescrError)}
           onChange={handleInput}

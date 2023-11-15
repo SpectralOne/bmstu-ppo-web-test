@@ -3,7 +3,7 @@ import {
   SmallPage,
   SectionTitle,
   HorizontalLine,
-  Button,
+  ButtonSecondary,
   ButtonPrimary,
   Flex,
 } from '../theme'
@@ -31,7 +31,7 @@ const NewPlayersPage: React.FC = () => {
           <Link style={{ marginRight: '16px' }} to={'/players'}>
             <ButtonPrimary>Show All Players</ButtonPrimary>
           </Link>
-          <Button onClick={() => setSaved(false)}>Add Another</Button>
+          <ButtonSecondary onClick={() => setSaved(false)}>Add Another</ButtonSecondary>
         </SavedContainer>
       ) : (
         <>

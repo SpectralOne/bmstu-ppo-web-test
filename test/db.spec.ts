@@ -7,18 +7,19 @@ import { UsersRepo } from "../src/db/UsersRepo";
 import { TeamsRepo } from "../src/db/TeamsRepo";
 import { PlayersRepo } from "../src/db/PlayersRepo";
 
-import dotenv from "dotenv"
-dotenv.config()
+// import dotenv from "dotenv"
+// dotenv.config()
 
-const USERNAME = process.env.PG_USER;
-const HOST = process.env.PG_HOST;
-const DATABASE = process.env.PG_TEST_DB;
-const PASSWORD = process.env.PG_PASS;
-const PORT = parseInt(process.env.PG_PORT as string);
+const USERNAME = "admin";
+const HOST = "localhost";
+const DATABASE = "test";
+const PASSWORD = "admin";
+const PORT = 5432;
 
-const prepareTestDB = () => {
+const prepareTestDB = async () => {
   const script_template = `PGPASSWORD=${PASSWORD} psql -h ${HOST} -U ${USERNAME} -d ${DATABASE} -f ./sql/pg_init.sql`;
   exec(script_template);
+  await new Promise(r => setTimeout(r, 2000));
 }
 
 const connParams: ConnParams = {
@@ -29,8 +30,8 @@ const connParams: ConnParams = {
   port: PORT,
 };
 
-beforeAll(() => {
-  prepareTestDB();
+beforeAll(async () => {
+  await prepareTestDB();
 });
 
 describe("Test UserRepo", () => {

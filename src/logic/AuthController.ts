@@ -34,6 +34,7 @@ export class AuthController {
     try {
       jwt.verify(token, SECRET);
     } catch (e) {
+      console.log(e)
       throw new PermissionError("Failed to verify token");
     }
   }
@@ -54,7 +55,6 @@ export class AuthController {
     return JSON.parse(decoded.data);
   }
 
-  // ?
   resetHeader(res: Response) {
     res.clearCookie("jwtToken");
   }

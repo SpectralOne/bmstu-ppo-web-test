@@ -7,7 +7,7 @@ import DeleteConfirmation from "./DeleteConfirmation";
 const Table = styled.table`
   width: 100%;
   th {
-    background-color: ${colors.appBg};
+    background-color: ${colors.paperLight};
   }
   th,
   td {
@@ -33,14 +33,16 @@ const PlayersTable: React.FC<Props> = ({ players, onDelete }) => (
     <tr>
       <th>ID</th>
       <th>Player Name</th>
+      <th>Player Birthdate</th>
       <th/>
     </tr>
     </thead>
     <tbody>
     {players.map((p, i) => (
       <tr key={i} data-id={p.id}>
-        <td>{p.id}</td> 
+        <td>{p.id}</td>
         <td>{p.firstname} {p.lastname}</td>
+        <td>{new Date(p.birthdate!).toLocaleDateString()}</td>
         <td>
           <DeleteConfirmation onDelete={() => onDelete(p)}/>
         </td>

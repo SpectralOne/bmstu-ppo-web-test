@@ -58,6 +58,40 @@ export const ButtonPrimary = styled(Button)`
   }
 `
 
+export const ButtonSecondary = styled(Button)`
+  background-color: ${colors.paperLight};
+  color: ${colors.textPrimary};
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      color: ${colors.white};
+      background-color: ${colors.dark};
+    }
+  }
+`
+
+export const TableDeleteButton = styled(Button)`
+  background-color: ${colors.tableDeleteBg};
+  color: ${colors.white};
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      background-color: ${colors.tableDeleteHover};
+    }
+  }
+`
+
+export const TableDeleteConfirmButton = styled(Button)`
+  background-color: ${colors.tableDeleteConfirm};
+  color: ${colors.white};
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      background-color: ${colors.tableDeleteConfirmHover};
+    }
+  }
+`
+
 export const Page = styled.main`
   position: relative;
   flex: 1;
@@ -87,6 +121,13 @@ export const SmallPage = styled(Section)`
 export const SectionTitle = styled.h1`
   font-size: 36px;
   color: ${colors.headingTitle};
+  margin-top: 0;
+  margin-bottom: 32px;
+`
+
+export const DashboardSection = styled.h1`
+  font-size: 36px;
+  color: ${colors.white};
   margin-top: 0;
   margin-bottom: 32px;
 `
@@ -161,6 +202,7 @@ export const Flex = styled.div<FlexProps>`
 
 const SelectWrapper = styled.div`
   position: relative;
+  margin-top: 8px;
   select {
     appearance: none;
     background-color: transparent;
@@ -168,9 +210,11 @@ const SelectWrapper = styled.div`
     line-height: 1.75;
     font-size: 16px;
     border: 1px solid ${colors.divider};
-    //border-radius: 30px;
+    border-radius: 30px;
     transition: all 0.2s;
     position: relative;
+    width: 100%;
+    // margin-bottom: 16px;
     &:focus,
     &:hover {
       border-color: ${colors.primary};

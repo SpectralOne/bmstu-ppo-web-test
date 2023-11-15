@@ -30,14 +30,20 @@ export interface UserRequest extends Request {
 }
 
 export const auth = (req: any, res: Response, next: NextFunction) => {
-  const token = authController.extractToken(req);
-  console.log(token);
-  authController.verify(token);
-  const user = authController.extractInfoFromToken(token);
-  if (!user)
-    throw new PermissionError("Can't get user from token");
-  req.user = user;
-  next();
+  try {
+    const token = authController.extractToken(req);
+    console.log(token);
+    authController.verify(token);
+    const user = authController.extractInfoFromToken(token);
+    console.log(user)
+    if (!user)
+      throw new PermissionError("Can't get user from token");
+    req.user = user;
+    next();
+  } catch (e) {
+    authController.resetHeader(res)
+    res.status(401).send("Invalid Token");
+  }
 }
 
 export const sendOld = (req: Request, res: Response, _next: NextFunction) => {

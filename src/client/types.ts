@@ -1,6 +1,6 @@
 export interface Config {
   api_url: string
-  token?: string
+  token?: string | undefined | null
   plant_per_page: number
   months: string[],
   version: string

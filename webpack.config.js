@@ -39,11 +39,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: 'css-loader'
-          }
-        ]
+        use: ['style-loader', 'css-loader']
       },
       // {
       //   test: /\.less$/,
@@ -83,7 +79,7 @@ module.exports = {
     contentBase: './',
     proxy: {
       '/api/v1/**': {
-        target: 'https://team-gen.com',
+        target: 'http://localhost:3000',
         secure: false,
         changeOrigin: true
       }
