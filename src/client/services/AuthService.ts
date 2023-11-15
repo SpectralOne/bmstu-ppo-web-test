@@ -3,7 +3,7 @@ import { User } from '../types'
 
 export class AuthService {
   static login(options?: User): Promise<string> {
-    return API.post("/user/login", options).then((response: any) => response).catch(() => "")
+    return API.post("/user/login", options)
   }
 
   static logout(): Promise<boolean> {

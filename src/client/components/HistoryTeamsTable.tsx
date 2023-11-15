@@ -7,7 +7,7 @@ import { getFormattedDate } from '../utils'
 const Table = styled.table`
   width: 100%;
   th {
-    background-color: ${colors.appBg};
+    background-color: ${colors.paperLight};
   }
   th,
   td {

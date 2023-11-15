@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {
-  SectionTitle
+  DashboardSection
 } from '../theme'
 import config from '../config'
 
 const DashboardPage: React.FC = () => {
 
   return (
-    <SectionTitle>{`You're using: ${config.version}`}</SectionTitle>
+    <DashboardSection>{`You're using: ${config.version}`}</DashboardSection>
   )
 }
 export default DashboardPage

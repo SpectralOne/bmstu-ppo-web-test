@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import PlayersTable from '../components/PlayersTable'
 import { PlayersService } from '../services'
-import { ButtonSuccess, Section, SectionTitle, Flex } from '../theme'
+import { ButtonPrimary, Section, SectionTitle, Flex } from '../theme'
 import styled from '@emotion/styled'
 import { Link, useParams } from 'react-router-dom'
 import { Player } from '../types'
 import Loader from '../components/Loader'
 
-const NewPlayerButton = styled(ButtonSuccess)`
+const NewPlayerButton = styled(ButtonPrimary)`
   margin-bottom: 24px;
 `
 

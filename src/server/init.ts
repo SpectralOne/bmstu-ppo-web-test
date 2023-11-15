@@ -16,11 +16,11 @@ import { dbContextEnum } from "../types/Context";
 
 
 const connParams: ConnParams = {
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DB,
-  password: process.env.PG_PASS,
-  port: parseInt(process.env.PG_PORT as string),
+  user: process.env.PG_USER || "admin",
+  host: process.env.PG_HOST || "localhost",
+  database: process.env.PG_DB || "admin",
+  password: process.env.PG_PASS || "admin",
+  port: 5432, //parseInt(process.env.PG_PORT as string),
 };
 console.log(connParams);
 const connMysql: ConnParams = {

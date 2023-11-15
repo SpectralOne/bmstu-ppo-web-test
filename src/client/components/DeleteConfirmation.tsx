@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, ButtonPrimary, Flex } from '../theme'
+import { ButtonSecondary, TableDeleteButton, TableDeleteConfirmButton, Flex } from '../theme'
 
 interface DeleteConfirmationProps {
   onDelete: () => void
@@ -14,7 +14,7 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
     <Flex justifyContent="flex-end">
       {confirming ? (
         <>
-          <ButtonPrimary
+          <TableDeleteConfirmButton
             disabled={deleting}
             onClick={() => {
               setDeleting(true)
@@ -23,16 +23,17 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
             className="confirm-delete-button"
           >
             Yes, delete.
-          </ButtonPrimary>
-          <Button disabled={deleting} onClick={() => setConfirming(false)}>
+          </TableDeleteConfirmButton>
+          <TableDeleteButton disabled={deleting} onClick={() => setConfirming(false)}>
             Cancel
-          </Button>
+          </TableDeleteButton>
         </>
       ) : (
-        <Button className="delete-button" onClick={() => setConfirming(true)}>Delete</Button>
+        <ButtonSecondary className="delete-button" onClick={() => setConfirming(true)}>Delete</ButtonSecondary>
       )}
     </Flex>
   )
 }
 
 export default DeleteConfirmation
+

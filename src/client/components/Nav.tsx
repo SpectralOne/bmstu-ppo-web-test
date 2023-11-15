@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { breakpoints } from "../theme";
-import { setToken } from '../utils';
+import { breakpoints, colors } from "../theme";
+import { logOut } from '../utils';
 
 const NavContainer = styled.nav`
   margin-right: 16px;
@@ -22,6 +22,7 @@ const NavLinkStyled = styled(NavLink)`
   box-sizing: border-box;
   transition: all .2s;
   border-radius: 0 55px 55px 0;
+  background-color: ${colors.white};
   @media screen and (max-width: ${breakpoints.md}px) {
     padding: 8px 14px;
     margin: 0;
@@ -30,16 +31,16 @@ const NavLinkStyled = styled(NavLink)`
   }
 
   &:hover {
-    background-color: rgba(80,80,80, 0.05);
+    background-color: ${colors.rightPanelHover};
   }
   &.active {
-    background-color: rgb(203, 244, 255);
+    background-color: ${colors.rightPanelActive};
   }
 `
 
 const Nav: React.FC = () => (
   <NavContainer>
-    <NavLinkStyled exact activeClassName="active" to="/">Dashboard</NavLinkStyled>
+    <NavLinkStyled exact activeClassName="active" to="/dashboard">Dashboard</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" to="/players">All Players</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" to="/teams">All Teams</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" to="/teams/add">Add Player To Team</NavLinkStyled>
@@ -47,8 +48,7 @@ const Nav: React.FC = () => (
     <NavLinkStyled exact activeClassName="active" to="/player/teams">Player Teams</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" to="/player/history">Previous Player Teams</NavLinkStyled>
     <NavLinkStyled exact activeClassName="active" onClick={() => {
-      setToken("")
-      window.location.reload()
+      logOut()
     }}
       to="/">Logout</NavLinkStyled>
   </NavContainer>

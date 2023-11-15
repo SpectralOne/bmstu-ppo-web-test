@@ -1,83 +1,100 @@
 import React, { useEffect, useState } from 'react'
-import { PlayerTeam } from '../types'
+import { PlayerTeam, Player, Team } from '../types'
 import {
-  TextInput,
   Label,
-  FormGroup,
   ButtonPrimary,
   ErrorMsg,
+  Select
 } from '../theme'
+import styled from '@emotion/styled'
 
 interface Props {
   onSave: (team: PlayerTeam) => void
   del: boolean
+  players: Player[]
+  teams: Team[]
 }
 
 const PlayerTeamForm: React.FC<Props> = (props: Props) => {
-  const [team, setTeam] = useState<PlayerTeam>({ playerid: -1, teamid: -1 })
+  const [playerTeam, setPlayerTeam] = useState<PlayerTeam>({ playerid: -1, teamid: -1 })
+  const [playerIdx, setPlayerIdx] = useState(-1)
+  const [teamIdx, setTeamIdx] = useState(-1)
   const [playerError, setPlayerError] = useState(false)
   const [teamError, setTeamError] = useState(false)
   const [submit, setSubmit] = useState(false)
-  const { onSave, del } = props
-
-  const validate = (val: number | undefined | string, f: any) => {
-    if (!val || val === -1) {
-      f(true)
-    } else {
-      f(false)
-      setSubmit(false)
-    }
-  }
-
-  const handleInput = (e: any) => {
-    e.persist()
-    const { id, value } = e.target;
-    setTeam(prev => ({ ...prev, [id]: value }))
-  }
+  const { onSave, del, players, teams } = props
 
   useEffect(() => {
     const verror: boolean = playerError || teamError;
     if (submit && !verror) {
-      onSave(team)
+      onSave(playerTeam)
       setSubmit(false)
-      setTeam({ playerid: -1, teamid: -1 })
+      setTeamIdx(-1)
+      setPlayerIdx(-1)
     }
   }, [submit, playerError, teamError])
 
   const onSubmit = () => {
-    validate(team.playerid, setPlayerError)
-    validate(team.teamid, setTeamError)
-    setSubmit(true)
+    setTeamError(false)
+    setPlayerError(false)
 
+    if (teamIdx === -1) setTeamError(true)
+    if (playerIdx === -1) setPlayerError(true)
+    if (playerError || teamError) return
+
+    const player: Player = players[playerIdx]
+    const team: Team = teams[teamIdx]
+    setPlayerTeam({ playerid: player.id, teamid: team?.id })
+    setSubmit(true)
   }
 
   return (
     <div>
-      <FormGroup>
-        <Label htmlFor="playerid">Player ID:</Label>
-        <TextInput
-          id="playerid"
-          type="number"
-          placeholder="Enter Player ID..."
-          onKeyUp={e => validate(e.currentTarget.value, setPlayerError)}
-          onChange={handleInput}
-          className={playerError ? 'error' : ''}
-        />
+      <div>
+        <Label>Select Player</Label>
+        <Select
+          error={playerError}
+          onChange={e => {
+            const index: number = parseInt(e.target.value)
+            setPlayerIdx(index)
+          }}
+        >
+          <option value="-1">-- Select --</option>
+          {players.map((player, i) => (
+            <option key={i} value={i}>
+              {`${player.firstname} ${player.lastname}`}
+            </option>
+          ))}
+        </Select>
         {playerError && <ErrorMsg>Player ID is required.</ErrorMsg>}
-      </FormGroup>
+      </div>
 
-      <FormGroup>
-        <Label htmlFor="teamid">Team ID:</Label>
-        <TextInput
-          id="teamid"
-          type="number"
-          placeholder="Enter Team ID..."
-          onKeyUp={e => validate(e.currentTarget.value, setTeamError)}
-          onChange={handleInput}
-          className={teamError ? 'error' : ''}
-        />
+      <div style={{marginTop: "16px", marginBottom: "16px"}}>
+        <Label>Select Team</Label>
+        <Select
+          error={teamError}
+          onChange={e => {
+            const index: number = parseInt(e.target.value)
+            setTeamIdx(index)
+          }}
+        >
+          <option value="-1">-- Select --</option>
+          {teams
+            .filter((team) => {
+              return playerIdx !== -1
+                ? del
+                  ? players[playerIdx].teams?.includes(team?.id || -1)
+                  : !players[playerIdx].teams?.includes(team?.id || -1)
+                : true
+            })
+            .map((team, i) => (
+              <option key={i} value={i}>
+                {team.name}
+              </option>
+            ))}
+        </Select>
         {teamError && <ErrorMsg>Team ID is required.</ErrorMsg>}
-      </FormGroup>
+      </div>
 
       <ButtonPrimary onClick={onSubmit}>
         {del ? "Delete" : "Add"}

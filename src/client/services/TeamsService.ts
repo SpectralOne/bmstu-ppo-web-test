@@ -1,5 +1,6 @@
 import API from '../API'
 import { Team, TeamsResponse, HistoryTeamsResponse } from '../types'
+import { api401 } from '../utils'
 
 interface GetTeamsOptions {
   limit?: number
@@ -22,11 +23,15 @@ export class TeamsService {
   }
 
   static delTeam(id: number): Promise<boolean> {
-    return API.delete(`/teams/${id}`).then(() => true).catch(() => false)
+    return API.delete(`/teams/${id}`)
+    .then(() => true)
+    .catch(err => api401(err))
   }
 
   static addTeam(team: Team): Promise<boolean> {
-    return API.post(`/team`, JSON.stringify(team)).then(() => true).catch(() => false)
+    return API.post(`/teams`, JSON.stringify(team))
+    .then(() => true)
+    .catch(err => api401(err))
   }
 
   static getPlayerHistory(playerId: number): Promise<HistoryTeamsResponse> {
