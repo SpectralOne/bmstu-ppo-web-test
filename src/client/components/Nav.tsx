@@ -8,7 +8,7 @@ const NavContainer = styled.nav`
   margin-right: 16px;
   margin-top: 48px;
   @media screen and (max-width: ${breakpoints.md}px) {
-    margin: 10px 10px 4px;
+    margin: 10px;
     display:flex;
     justify-content:center;
   }
@@ -24,10 +24,14 @@ const NavLinkStyled = styled(NavLink)`
   border-radius: 0 55px 55px 0;
   background-color: ${colors.white};
   @media screen and (max-width: ${breakpoints.md}px) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: 8px 14px;
     margin: 0;
     border-radius: 55px;
     width: auto;
+    margin: 2px;
   }
 
   &:hover {

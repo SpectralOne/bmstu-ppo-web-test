@@ -62,9 +62,7 @@ services:
       - pgadmin
 
   app1:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: spectralone/ppo:latest
     volumes:
       - ./:/app
     working_dir: /app
@@ -81,9 +79,7 @@ services:
       - "slave:database"
 
   app2:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: spectralone/ppo:latest
     volumes:
       - ./:/app
     working_dir: /app
@@ -100,9 +96,7 @@ services:
       - "slave:database"
 
   app3:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: spectralone/ppo:latest
     volumes:
       - ./:/app
     working_dir: /app

@@ -21,6 +21,7 @@ const AppContainer = styled.div`
   display: flex;
   @media screen and (max-width: ${breakpoints.md}px) {
     flex-direction: column;
+    min-height: 100vh;
   }
 `
 

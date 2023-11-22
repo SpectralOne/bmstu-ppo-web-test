@@ -1,6 +1,6 @@
 import React from 'react'
 import { HistoryTeam } from '../types'
-import { colors } from '../theme'
+import { colors, breakpoints } from '../theme'
 import styled from '@emotion/styled'
 import { getFormattedDate } from '../utils'
 
@@ -13,6 +13,9 @@ const Table = styled.table`
   td {
     text-align: left;
     padding: 8px 16px;
+    @media screen and (max-width: ${breakpoints.md}px) {
+      padding: 4px;
+    }
   }
   td {
     border-top: 1px solid ${colors.divider};
