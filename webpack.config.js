@@ -79,7 +79,8 @@ module.exports = {
     contentBase: './',
     proxy: {
       '/api/v1/**': {
-        target: 'http://localhost:3000',
+        // target: 'https://team-gen.com',
+        target: 'https://localhost:3000',
         secure: false,
         changeOrigin: true
       }

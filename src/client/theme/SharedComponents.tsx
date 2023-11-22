@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { colors } from './colors'
+import { breakpoints } from './breakpoints'
 import { HTMLAttributes } from 'react'
 
 export const Button = styled.button`
@@ -99,6 +100,10 @@ export const Page = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
+  @media screen and (max-width: ${breakpoints.md}px) {
+    width: auto;
+  }
 `
 
 export const Section = styled.div`
@@ -109,7 +114,9 @@ export const Section = styled.div`
   justify-content: flex-start;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 48px;
+  @media screen and (max-width: ${breakpoints.md}px) {
+    height: 100%;
+  }
 `
 
 export const SmallPage = styled(Section)`
@@ -134,6 +141,7 @@ export const DashboardSection = styled.h1`
 
 export const TextInput = styled.input`
   padding: 6px 16px;
+  width: 100%;
   line-height: 1.75;
   background-color: ${colors.white};
   border: 1px solid ${colors.divider};
@@ -207,6 +215,7 @@ const SelectWrapper = styled.div`
     appearance: none;
     background-color: transparent;
     padding: 6px 36px 6px 16px;
+    width: 100%;
     line-height: 1.75;
     font-size: 16px;
     border: 1px solid ${colors.divider};

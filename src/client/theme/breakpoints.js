@@ -1,3 +1,3 @@
 export const breakpoints = {
-  md: 786,
+  md: 390,
 }

@@ -4,7 +4,9 @@
 !/package.json
 !/tsconfig.json
 !/tsconfig.backend.json
+!/webpack.config.js
 !/nodemon.json
 !/webpack.config.js
 !/.babelrc
-!/public    
+!/public
+!/main_swagger.yaml
