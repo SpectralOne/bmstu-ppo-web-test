@@ -1,3 +1,9 @@
+## NOTE
+
+Тотал кринж репозиторий, это не решение из коробки, чтоб заработало надо подумать.. Сдавать лабы лучше из соответствующей ветки. (я предупредил)
+
+![xxx](https://memepedia.ru/wp-content/uploads/2022/05/mne-pohuj-ja-tak-chuvstvuju-tinkov.jpg)
+
 ## WEB
 
 Figma: https://www.figma.com/file/KSZx5KM6ydlPYLZ5rDK5SR/Team-Gen?type=design&node-id=0%3A1&mode=design&t=QXbadEQGAAGheRt2-1
